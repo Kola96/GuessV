@@ -809,7 +809,7 @@ git commit -m "feat(backend): VTuber 与团体实体、Mapper（含 JSON TypeHan
 **Interfaces:**
 - Produces: 全部实体与 Mapper（后续 M2-M5 使用）
 
-- [ ] **Step 1：创建 User 实体**
+- [x] **Step 1：创建 User 实体**
 
 `backend/src/main/java/com/guessv/entity/User.java`:
 
@@ -846,7 +846,7 @@ public class User {
 
 > 注意：表名用 `"user"` 加双引号，因为 user 是 SQL 保留字。
 
-- [ ] **Step 2：创建 DailyTarget 实体**
+- [x] **Step 2：创建 DailyTarget 实体**
 
 `backend/src/main/java/com/guessv/entity/DailyTarget.java`:
 
@@ -872,7 +872,7 @@ public class DailyTarget {
 }
 ```
 
-- [ ] **Step 3：创建 GameRecord 实体**
+- [x] **Step 3：创建 GameRecord 实体**
 
 `backend/src/main/java/com/guessv/entity/GameRecord.java`:
 
@@ -909,7 +909,7 @@ public class GameRecord {
 
 > `guesses` 用 `Object` 类型，M3 实现时再细化为具体 DTO。
 
-- [ ] **Step 4：创建 PoolTag 实体**
+- [x] **Step 4：创建 PoolTag 实体**
 
 `backend/src/main/java/com/guessv/entity/PoolTag.java`:
 
@@ -940,7 +940,7 @@ public class PoolTag {
 }
 ```
 
-- [ ] **Step 5：创建 OperationLog 实体**
+- [x] **Step 5：创建 OperationLog 实体**
 
 `backend/src/main/java/com/guessv/entity/OperationLog.java`:
 
@@ -972,7 +972,7 @@ public class OperationLog {
 }
 ```
 
-- [ ] **Step 6：创建 Room 实体**
+- [x] **Step 6：创建 Room 实体**
 
 `backend/src/main/java/com/guessv/entity/Room.java`:
 
@@ -1008,7 +1008,7 @@ public class Room {
 }
 ```
 
-- [ ] **Step 7：创建 RoomPlayer 实体**
+- [x] **Step 7：创建 RoomPlayer 实体**
 
 `backend/src/main/java/com/guessv/entity/RoomPlayer.java`:
 
@@ -1040,7 +1040,7 @@ public class RoomPlayer {
 }
 ```
 
-- [ ] **Step 8：创建 CrawlLog 实体**
+- [x] **Step 8：创建 CrawlLog 实体**
 
 `backend/src/main/java/com/guessv/entity/CrawlLog.java`:
 
@@ -1071,7 +1071,7 @@ public class CrawlLog {
 }
 ```
 
-- [ ] **Step 9：创建全部 Mapper 接口**
+- [x] **Step 9：创建全部 Mapper 接口**
 
 依次创建以下 8 个文件，内容模式相同（替换实体类名）：
 
@@ -1163,7 +1163,7 @@ public interface CrawlLogMapper extends BaseMapper<CrawlLog> {
 }
 ```
 
-- [ ] **Step 10：编写实体冒烟测试**
+- [x] **Step 10：编写实体冒烟测试**
 
 `backend/src/test/java/com/guessv/mapper/EntitiesSmokeTest.java`:
 
@@ -1211,7 +1211,7 @@ class EntitiesSmokeTest {
 }
 ```
 
-- [ ] **Step 11：运行全部测试验证**
+- [x] **Step 11：运行全部测试验证**
 
 Run:
 ```bash
@@ -1219,7 +1219,7 @@ cd backend && mvn test -q
 ```
 Expected: 全部通过
 
-- [ ] **Step 12：提交**
+- [x] **Step 12：提交**
 
 ```bash
 git add backend/
