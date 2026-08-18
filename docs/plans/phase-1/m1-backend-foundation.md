@@ -43,7 +43,7 @@
 - Produces: `BizException` 业务异常（后续 Service 抛出）
 - Produces: `GlobalExceptionHandler` 全局异常处理（后续所有 Controller 自动生效）
 
-- [ ] **Step 1：验证开发环境**
+- [x] **Step 1：验证开发环境**
 
 Run:
 ```bash
@@ -52,7 +52,7 @@ mvn -version
 ```
 Expected: Java 21+，Maven 3.9+。若 Maven 未安装，执行 `mvn -N wrapper:wrapper -Dmaven=3.9.6` 生成 Maven Wrapper（Windows 用 `mvn.cmd` 的话改用 `.mvn/wrapper/MavenWrapperDownloader`）。
 
-- [ ] **Step 2：创建 pom.xml**
+- [x] **Step 2：创建 pom.xml**
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -116,7 +116,7 @@ Expected: Java 21+，Maven 3.9+。若 Maven 未安装，执行 `mvn -N wrapper:w
 </project>
 ```
 
-- [ ] **Step 3：创建主启动类**
+- [x] **Step 3：创建主启动类**
 
 `backend/src/main/java/com/guessv/GuessVApplication.java`:
 
@@ -136,7 +136,7 @@ public class GuessVApplication {
 }
 ```
 
-- [ ] **Step 4：创建配置文件**
+- [x] **Step 4：创建配置文件**
 
 `backend/src/main/resources/application.yml`（公共配置）:
 
@@ -198,7 +198,7 @@ app:
     import-enabled: false
 ```
 
-- [ ] **Step 5：创建统一响应体**
+- [x] **Step 5：创建统一响应体**
 
 `backend/src/main/java/com/guessv/common/Result.java`:
 
@@ -221,7 +221,7 @@ public record Result<T>(int code, String message, T data) {
 }
 ```
 
-- [ ] **Step 6：创建业务异常类**
+- [x] **Step 6：创建业务异常类**
 
 `backend/src/main/java/com/guessv/common/BizException.java`:
 
@@ -247,7 +247,7 @@ public class BizException extends RuntimeException {
 }
 ```
 
-- [ ] **Step 7：创建全局异常处理器**
+- [x] **Step 7：创建全局异常处理器**
 
 `backend/src/main/java/com/guessv/config/GlobalExceptionHandler.java`:
 
@@ -287,7 +287,7 @@ public class GlobalExceptionHandler {
 }
 ```
 
-- [ ] **Step 8：创建健康检查接口**
+- [x] **Step 8：创建健康检查接口**
 
 `backend/src/main/java/com/guessv/controller/HealthController.java`:
 
@@ -312,7 +312,7 @@ public class HealthController {
 }
 ```
 
-- [ ] **Step 9：编写健康检查测试（先写测试，TDD）**
+- [x] **Step 9：编写健康检查测试（先写测试，TDD）**
 
 `backend/src/test/java/com/guessv/controller/HealthControllerTest.java`:
 
@@ -348,7 +348,7 @@ class HealthControllerTest {
 }
 ```
 
-- [ ] **Step 10：运行测试验证通过**
+- [x] **Step 10：运行测试验证通过**
 
 Run:
 ```bash
@@ -356,7 +356,7 @@ cd backend && mvn test -Dtest=HealthControllerTest -q
 ```
 Expected: Tests pass（注意：此时 schema.sql 尚不存在会报错——这是正常的，下一步创建）
 
-- [ ] **Step 11：提交**
+- [x] **Step 11：提交**
 
 ```bash
 git add backend/

@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:sqlite:target/test.db
+    driver-class-name: org.sqlite.JDBC
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
+app:
+  data:
+    list-json-path: classpath:fixtures/list-sample.json
+    import-enabled: false
