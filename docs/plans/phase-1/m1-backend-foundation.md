@@ -375,7 +375,7 @@ git commit -m "feat(backend): Spring Boot 项目骨架与统一响应体"
 - Produces: 全部表的 DDL（后续实体类映射这些表）
 - Produces: `MybatisPlusInterceptor` Bean（分页支持）
 
-- [ ] **Step 1：创建 schema.sql（SQLite 方言）**
+- [x] **Step 1：创建 schema.sql（SQLite 方言）**
 
 > 注：此文件为 SQLite 开发环境 DDL。MySQL 生产环境 DDL 将在部署阶段单独维护（见 [部署方案](../../architecture/004-deployment.md)）。SQLite 与 MySQL 的差异：`INTEGER PRIMARY KEY AUTOINCREMENT` vs `BIGINT AUTO_INCREMENT`、`TEXT` 兼容 MySQL 的 VARCHAR/JSON。
 
@@ -543,7 +543,7 @@ CREATE TABLE IF NOT EXISTS crawl_log (
 
 > 注意：`user` 是 SQLite/MySQL 保留字，加双引号引用。
 
-- [ ] **Step 2：创建 MyBatis-Plus 配置**
+- [x] **Step 2：创建 MyBatis-Plus 配置**
 
 `backend/src/main/java/com/guessv/config/MybatisPlusConfig.java`:
 
@@ -568,7 +568,7 @@ public class MybatisPlusConfig {
 }
 ```
 
-- [ ] **Step 3：运行健康检查测试验证 schema 加载**
+- [x] **Step 3：运行健康检查测试验证 schema 加载**
 
 Run:
 ```bash
@@ -576,7 +576,7 @@ cd backend && mvn test -Dtest=HealthControllerTest -q
 ```
 Expected: 通过（schema.sql 自动执行，表已创建）
 
-- [ ] **Step 4：提交**
+- [x] **Step 4：提交**
 
 ```bash
 git add backend/
