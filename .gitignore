@@ -1,0 +1,41 @@
+# ========== 前端 ==========
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/*.local
+
+# ========== 后端 ==========
+backend/target/
+backend/*.class
+backend/.mvn/wrapper/maven-wrapper.jar
+
+# 前端构建产物（构建时拷入，不入库）
+backend/src/main/resources/static/
+
+# ========== 数据 ==========
+# SQLite 开发数据库
+data/*.db
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+
+# ========== 环境配置（含敏感信息） ==========
+.env
+.env.local
+**/application-local.yml
+
+# ========== IDE ==========
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# ========== 操作系统 ==========
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# ========== 日志 ==========
+*.log
+logs/
