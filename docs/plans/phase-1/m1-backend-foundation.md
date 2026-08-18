@@ -599,7 +599,7 @@ git commit -m "feat(backend): 数据库 schema 与 MyBatis-Plus 配置"
 - Produces: `VtuberMapper.insert(Vtuber)` 用于 Task 5 导入
 - Produces: `VtuberGroupMapper` 用于 Task 5 导入团体
 
-- [ ] **Step 1：创建团体实体**
+- [x] **Step 1：创建团体实体**
 
 `backend/src/main/java/com/guessv/entity/VtuberGroup.java`:
 
@@ -627,7 +627,7 @@ public class VtuberGroup {
 }
 ```
 
-- [ ] **Step 2：创建 VTuber 实体（含 JSON TypeHandler）**
+- [x] **Step 2：创建 VTuber 实体（含 JSON TypeHandler）**
 
 `backend/src/main/java/com/guessv/entity/Vtuber.java`:
 
@@ -688,7 +688,7 @@ public class Vtuber {
 
 > 关键：`autoResultMap = true` 必须设置，否则 `JacksonTypeHandler` 在 select 时不生效。
 
-- [ ] **Step 3：创建 Mapper 接口**
+- [x] **Step 3：创建 Mapper 接口**
 
 `backend/src/main/java/com/guessv/mapper/VtuberGroupMapper.java`:
 
@@ -714,7 +714,7 @@ public interface VtuberMapper extends BaseMapper<Vtuber> {
 }
 ```
 
-- [ ] **Step 4：编写 Mapper 测试（TDD，先写测试）**
+- [x] **Step 4：编写 Mapper 测试（TDD，先写测试）**
 
 `backend/src/test/java/com/guessv/mapper/VtuberMapperTest.java`:
 
@@ -775,7 +775,7 @@ class VtuberMapperTest {
 }
 ```
 
-- [ ] **Step 5：运行测试验证通过**
+- [x] **Step 5：运行测试验证通过**
 
 Run:
 ```bash
@@ -783,7 +783,7 @@ cd backend && mvn test -Dtest=VtuberMapperTest -q
 ```
 Expected: 两个测试通过（JSON 字段正确序列化/反序列化）
 
-- [ ] **Step 6：提交**
+- [x] **Step 6：提交**
 
 ```bash
 git add backend/

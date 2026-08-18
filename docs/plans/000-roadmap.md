@@ -12,7 +12,7 @@
 |------|-----|
 | **当前阶段** | Phase 1（MVP） |
 | **当前里程碑** | M1：后端骨架与数据导入 🚧 |
-| **当前任务** | Task 2 ✅ 完成，下一步 Task 3（VTuber 与团体实体） |
+| **当前任务** | Task 3 ✅ 完成，下一步 Task 4（其余实体与 Mapper） |
 | **进行中分支** | main |
 | **阻塞事项** | 无 |
 
@@ -62,7 +62,7 @@
 
 - [x] Task 1：Spring Boot 项目骨架（pom.xml、配置文件、统一响应体、全局异常、健康检查）
 - [x] Task 2：数据库基础（schema.sql、MyBatis-Plus 配置、SQLite 数据源）
-- [ ] Task 3：VTuber 与团体实体 + Mapper（含 JSON TypeHandler）
+- [x] Task 3：VTuber 与团体实体 + Mapper（含 JSON TypeHandler）
 - [ ] Task 4：其余实体（User / DailyTarget / GameRecord / PoolTag / OperationLog / Room / RoomPlayer）
 - [ ] Task 5：list.json 数据导入器（空表时自动导入）
 - [ ] Task 6：开发种子数据（10 位完整属性的 active VTuber）
