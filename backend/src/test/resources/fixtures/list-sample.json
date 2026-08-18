@@ -1,0 +1,31 @@
+{
+  "meta": {"UUID_NAMESPACE": "test", "timestamp": 1787024168},
+  "vtbs": [
+    {
+      "uuid": "e3132f27-7b99-5983-9224-e68475e3ffac",
+      "type": "vtuber",
+      "bot": false,
+      "accounts": [
+        {"id": "674600648", "type": "official", "platform": "bilibili"},
+        {"id": "UCoSrY_IQQVpmIRZ9Xf-y93g", "type": "official", "platform": "youtube"}
+      ],
+      "name": {"extra": [], "cn": "噶呜·古拉", "en": "Gawr Gura", "jp": "がうる・ぐら", "default": "cn"},
+      "group": "d406e5da-ef7d-5e0f-9439-264188944758",
+      "group_name": "Hololive EN"
+    },
+    {
+      "uuid": "f2f75b0c-8ab1-5258-81db-cb8209550b4d",
+      "type": "vtuber",
+      "bot": false,
+      "accounts": [{"id": "74381130", "type": "official", "platform": "bilibili"}],
+      "name": {"extra": [], "cn": "--晴朗蓝--", "default": "cn"}
+    },
+    {
+      "uuid": "bot-uuid-001",
+      "type": "bot",
+      "bot": true,
+      "accounts": [],
+      "name": {"cn": "测试Bot", "default": "cn"}
+    }
+  ]
+}

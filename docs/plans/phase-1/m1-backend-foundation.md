@@ -1258,7 +1258,7 @@ git commit -m "feat(backend): 全部实体类与 Mapper 接口"
 }
 ```
 
-- [ ] **Step 1：创建 list.json 的 DTO 映射类**
+- [x] **Step 1：创建 list.json 的 DTO 映射类**
 
 `backend/src/main/java/com/guessv/dto/ListJsonDto.java`:
 
@@ -1315,7 +1315,7 @@ public class ListJsonDto {
 }
 ```
 
-- [ ] **Step 2：创建测试夹具文件**
+- [x] **Step 2：创建测试夹具文件**
 
 `backend/src/test/resources/fixtures/list-sample.json`:
 
@@ -1355,7 +1355,7 @@ public class ListJsonDto {
 
 > 注意：第三条是 bot，导入器应跳过。
 
-- [ ] **Step 3：编写导入器测试（TDD，先写测试）**
+- [x] **Step 3：编写导入器测试（TDD，先写测试）**
 
 `backend/src/test/java/com/guessv/service/DataImportServiceTest.java`:
 
@@ -1408,7 +1408,7 @@ class DataImportServiceTest {
 }
 ```
 
-- [ ] **Step 4：运行测试验证失败**
+- [x] **Step 4：运行测试验证失败**
 
 Run:
 ```bash
@@ -1416,7 +1416,7 @@ cd backend && mvn test -Dtest=DataImportServiceTest -q
 ```
 Expected: 编译失败（`DataImportService` 不存在）
 
-- [ ] **Step 5：实现 DataImportService**
+- [x] **Step 5：实现 DataImportService**
 
 `backend/src/main/java/com/guessv/service/DataImportService.java`:
 
@@ -1542,7 +1542,7 @@ public class DataImportService {
 }
 ```
 
-- [ ] **Step 6：创建启动 Runner 调用导入器**
+- [x] **Step 6：创建启动 Runner 调用导入器**
 
 `backend/src/main/java/com/guessv/config/DataImportRunner.java`:
 
@@ -1570,7 +1570,7 @@ public class DataImportRunner implements ApplicationRunner {
 }
 ```
 
-- [ ] **Step 7：运行测试验证通过**
+- [x] **Step 7：运行测试验证通过**
 
 Run:
 ```bash
@@ -1578,7 +1578,7 @@ cd backend && mvn test -Dtest=DataImportServiceTest -q
 ```
 Expected: 两个测试通过
 
-- [ ] **Step 8：手动验证全量导入**
+- [x] **Step 8：手动验证全量导入**
 
 Run:
 ```bash
@@ -1586,7 +1586,7 @@ cd backend && mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 观察日志：应看到 `导入完成，成功 ~10000 条`。Ctrl+C 停止。
 
-- [ ] **Step 9：提交**
+- [x] **Step 9：提交**
 
 ```bash
 git add backend/
