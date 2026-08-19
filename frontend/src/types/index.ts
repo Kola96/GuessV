@@ -59,6 +59,8 @@ export interface DailyGameInfo {
   hasWon: boolean
   attemptsUsed: number
   guesses: GuessEntry[]
+  targetName?: string
+  targetAvatarUrl?: string
 }
 
 export interface GuessResponse {

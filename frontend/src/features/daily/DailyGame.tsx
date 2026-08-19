@@ -6,6 +6,7 @@ import type { DailyGameInfo, GuessEntry, GuessResponse, VtuberSearchResult } fro
 import GuessCard, { TABLE_COLUMNS } from '../../components/GuessCard'
 import SearchInput from '../../components/SearchInput'
 import ResultBanner from '../../components/ResultBanner'
+import Avatar from '../../components/Avatar'
 
 export default function DailyGame() {
   const [info, setInfo] = useState<DailyGameInfo | null>(null)
@@ -15,7 +16,8 @@ export default function DailyGame() {
   const [targetName, setTargetName] = useState<string | undefined>()
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const [dismissed, setDismissed] = useState(false)
+  // justFinished: 本轮猜测刚结束（弹窗）；restored: 从服务端恢复的已结束游戏（不弹窗）
+  const [justFinished, setJustFinished] = useState(false)
 
   const maxAttempts = info?.maxAttempts ?? 8
   const attemptsUsed = guesses.length
@@ -24,8 +26,12 @@ export default function DailyGame() {
     gameApi.dailyInfo().then((data) => {
       setInfo(data)
       setGuesses(data.guesses || [])
-      setGameOver(data.hasPlayed && (data.hasWon || data.attemptsUsed >= data.maxAttempts))
+      // 恢复已结束的游戏：不弹窗
+      const isOver = data.hasPlayed && (data.hasWon || data.attemptsUsed >= data.maxAttempts)
+      setGameOver(isOver)
       setWin(data.hasWon)
+      setTargetName(data.targetName)
+      setJustFinished(false)
     }).catch(() => {})
   }, [])
 
@@ -47,6 +53,7 @@ export default function DailyGame() {
         setGameOver(true)
         setWin(resp.win)
         setTargetName(resp.targetVtuber?.name)
+        setJustFinished(true)  // 本轮结束 → 弹窗
       }
     } catch (e) {
       setError(e instanceof ApiError ? e.message : '猜测失败')
@@ -79,20 +86,56 @@ export default function DailyGame() {
             ))}
           </div>
           <span className="text-text-secondary text-sm">
-            {remaining > 0 ? `剩 ${remaining} 次` : '已用完'}
+            {gameOver ? (win ? '已通关' : '已结束') : `剩 ${remaining} 次`}
           </span>
         </div>
       </div>
 
-      {/* 结果弹窗 */}
+      {/* 弹窗：仅本轮刚结束时弹出 */}
       <ResultBanner
         win={win}
-        gameOver={gameOver && !dismissed}
+        gameOver={gameOver && justFinished}
         attemptsUsed={attemptsUsed}
         maxAttempts={maxAttempts}
         targetName={targetName}
-        onDismiss={() => setDismissed(true)}
+        onDismiss={() => setJustFinished(false)}
       />
+
+      {/* 已结束横幅（恢复进入时显示，不弹窗） */}
+      {gameOver && !justFinished && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="card p-5 mb-3 flex items-center gap-4"
+        >
+          <Avatar name={targetName || '?'} size="lg" />
+          <div className="flex-1 min-w-0">
+            {win ? (
+              <>
+                <div className="text-exact font-bold text-lg">🎉 今日已通关</div>
+                <div className="text-text-secondary text-sm">
+                  用了 {attemptsUsed} / {maxAttempts} 次，答案是 {targetName}
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="text-secondary font-bold text-lg">😢 今日已结束</div>
+                <div className="text-text-secondary text-sm">
+                  答案是 {targetName}，明天再来挑战吧
+                </div>
+              </>
+            )}
+          </div>
+          <a
+            href="https://live.bilibili.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary text-sm shrink-0"
+          >
+            ▶ 直播间
+          </a>
+        </motion.div>
+      )}
 
       {/* 猜测记录表格 */}
       {guesses.length > 0 && (
@@ -133,6 +176,13 @@ export default function DailyGame() {
         </motion.div>
       )}
 
+      {/* 已结束提示（表格下方） */}
+      {gameOver && !justFinished && (
+        <div className="text-center text-text-muted text-sm mt-4">
+          明日 00:00 刷新，届时再来挑战 🌅
+        </div>
+      )}
+
       {/* 错误提示 */}
       {error && (
         <motion.div
@@ -144,7 +194,7 @@ export default function DailyGame() {
         </motion.div>
       )}
 
-      {/* 输入区 */}
+      {/* 输入区：仅游戏未结束时显示 */}
       {!gameOver && (
         <div className="fixed bottom-0 left-0 right-0 bg-base/80 backdrop-blur-md border-t border-white/5 py-3 px-4">
           <div className="max-w-4xl mx-auto">

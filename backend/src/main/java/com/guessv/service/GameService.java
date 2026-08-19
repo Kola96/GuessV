@@ -47,9 +47,21 @@ public class GameService {
         boolean hasPlayed = record != null;
         boolean hasWon = record != null && Boolean.TRUE.equals(record.getIsWin());
         int used = record != null ? record.getAttempts() : 0;
+
+        // 仅在游戏已结束时返回目标信息（防作弊）
+        String targetName = null;
+        String targetAvatarUrl = null;
+        if (record != null && record.getFinishedAt() != null) {
+            Vtuber target = vtuberMapper.selectById(record.getTargetId());
+            if (target != null) {
+                targetName = displayName(target);
+                targetAvatarUrl = target.getAvatarUrl();
+            }
+        }
+
         return new DailyGameInfoVO(
                 LocalDate.now().toString(), maxAttempts, (int) total,
-                hasPlayed, hasWon, used, guesses);
+                hasPlayed, hasWon, used, guesses, targetName, targetAvatarUrl);
     }
 
     @Transactional
@@ -234,9 +246,20 @@ public class GameService {
             throw new BizException(403, "无权访问该会话");
         List<GuessEntry> guesses = parseGuesses(record);
         boolean hasWon = Boolean.TRUE.equals(record.getIsWin());
+
+        String targetName = null;
+        String targetAvatarUrl = null;
+        if (record.getFinishedAt() != null) {
+            Vtuber target = vtuberMapper.selectById(record.getTargetId());
+            if (target != null) {
+                targetName = displayName(target);
+                targetAvatarUrl = target.getAvatarUrl();
+            }
+        }
+
         return new DailyGameInfoVO(
                 record.getPoolTag(), maxAttempts, 0,
-                true, hasWon, record.getAttempts(), guesses);
+                true, hasWon, record.getAttempts(), guesses, targetName, targetAvatarUrl);
     }
 
     // ===== 工具 =====
