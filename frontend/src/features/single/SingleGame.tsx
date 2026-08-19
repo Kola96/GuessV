@@ -81,7 +81,7 @@ export default function SingleGame() {
   // 题库选择页
   if (!session) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-6">
+      <div className="max-w-4xl mx-auto px-6 py-6">
         <h2 className="text-xl font-bold text-text-primary mb-4">选择题库</h2>
         <div className="grid grid-cols-2 gap-3">
           {pools.map((p) => (
@@ -108,7 +108,7 @@ export default function SingleGame() {
 
   // 游戏页
   return (
-    <div className="max-w-2xl mx-auto px-4 pb-24">
+    <div className="max-w-4xl mx-auto px-6 pb-24">
       <div className="flex items-center justify-between py-4">
         <div className="flex items-center gap-2">
           <span className="text-text-muted text-sm">单人模式</span>
@@ -172,7 +172,7 @@ export default function SingleGame() {
         </button>
       ) : (
         <div className="fixed bottom-0 left-0 right-0 bg-base/80 backdrop-blur-md border-t border-white/5 py-3 px-4">
-          <div className="max-w-2xl mx-auto flex gap-2">
+          <div className="max-w-4xl mx-auto flex gap-2">
             <div className="flex-1">
               <SearchInput onGuess={handleGuess} disabled={loading} />
             </div>

@@ -33,7 +33,7 @@ export default function GuessCard({ entry, index }: GuessCardProps) {
       }`}
     >
       {/* 名字：固定宽度，截断 */}
-      <div className="shrink-0 w-20 truncate text-sm font-medium text-text-primary">
+      <div className="shrink-0 w-24 truncate text-sm font-medium text-text-primary">
         {entry.vtuberName}
       </div>
 

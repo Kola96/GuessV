@@ -42,7 +42,7 @@ export default function ComparisonRow({ label, field, index }: ComparisonRowProp
       <span className={`text-xs shrink-0 ${style.text}`}>
         {isArrow ? field.direction : style.icon}
       </span>
-      <div className="overflow-hidden" style={{ minWidth: 0, maxWidth: '80px' }}>
+      <div className="overflow-hidden" style={{ minWidth: 0, maxWidth: '120px' }}>
         <div
           className="text-xs whitespace-nowrap"
           style={{

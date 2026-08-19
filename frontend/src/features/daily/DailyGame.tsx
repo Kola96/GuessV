@@ -58,7 +58,7 @@ export default function DailyGame() {
   const remaining = maxAttempts - attemptsUsed
 
   return (
-    <div className="max-w-2xl mx-auto px-4 pb-24">
+    <div className="max-w-4xl mx-auto px-6 pb-24">
       {/* 状态栏 */}
       <div className="flex items-center justify-between py-4">
         <div className="flex items-center gap-2">
@@ -127,7 +127,7 @@ export default function DailyGame() {
       {/* 输入区 */}
       {!gameOver && (
         <div className="fixed bottom-0 left-0 right-0 bg-base/80 backdrop-blur-md border-t border-white/5 py-3 px-4">
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-4xl mx-auto">
             <SearchInput onGuess={handleGuess} disabled={loading || gameOver} />
           </div>
         </div>
