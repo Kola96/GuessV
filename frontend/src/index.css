@@ -50,3 +50,8 @@
     @apply w-full px-4 py-3 bg-elevated/60 border border-white/10 rounded-lg text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary/50 transition-colors;
   }
 }
+
+@keyframes scroll-text {
+  0%, 15% { transform: translateX(0); }
+  85%, 100% { transform: translateX(calc(-100% + 80px)); }
+}

@@ -17,6 +17,7 @@ export default function SingleGame() {
   const [targetName, setTargetName] = useState<string | undefined>()
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [dismissed, setDismissed] = useState(false)
 
   useEffect(() => {
     gameApi.pools().then(setPools).catch(() => {})
@@ -74,6 +75,7 @@ export default function SingleGame() {
     setGameOver(false)
     setWin(false)
     setTargetName(undefined)
+    setDismissed(false)
   }
 
   // 题库选择页
@@ -133,10 +135,12 @@ export default function SingleGame() {
 
       <ResultBanner
         win={win}
-        gameOver={gameOver}
+        gameOver={gameOver && !dismissed}
         attemptsUsed={attemptsUsed}
         maxAttempts={maxAttempts}
         targetName={targetName}
+        onRestart={handleRestart}
+        onDismiss={() => setDismissed(true)}
       />
 
       <div className="space-y-2">

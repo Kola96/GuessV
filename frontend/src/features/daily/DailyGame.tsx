@@ -15,6 +15,7 @@ export default function DailyGame() {
   const [targetName, setTargetName] = useState<string | undefined>()
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [dismissed, setDismissed] = useState(false)
 
   const maxAttempts = info?.maxAttempts ?? 8
   const attemptsUsed = guesses.length
@@ -83,13 +84,14 @@ export default function DailyGame() {
         </div>
       </div>
 
-      {/* 结果横幅 */}
+      {/* 结果弹窗 */}
       <ResultBanner
         win={win}
-        gameOver={gameOver}
+        gameOver={gameOver && !dismissed}
         attemptsUsed={attemptsUsed}
         maxAttempts={maxAttempts}
         targetName={targetName}
+        onDismiss={() => setDismissed(true)}
       />
 
       {/* 猜测记录 */}
