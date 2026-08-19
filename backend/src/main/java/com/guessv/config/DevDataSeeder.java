@@ -110,7 +110,7 @@ public class DevDataSeeder {
                         "04-06", 800000),
                 build("seed-miki", "弥希Miki", "Miki", null, "cn",
                         2020, LocalDate.of(2020, 2, 12), "中国", "VirtuaReal",
-                        "active", "female", List.of("黑"),
+                        "graduated", "female", List.of("黑"),
                         "弥希家的", "#9D8DF1", List.of("bilibili"), List.of("汉语"),
                         "11-10", 400000),
                 build("seed-sui", "岁己SUI", "SUI", null, "cn",
