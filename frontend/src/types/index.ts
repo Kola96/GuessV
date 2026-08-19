@@ -33,10 +33,11 @@ export interface ComparisonResult {
   region: FieldComparison
   group: FieldComparison
   debutYear: FieldComparison
+  birthday: FieldComparison
   gender: FieldComparison
   status: FieldComparison
   hairColor: FieldComparison
-  fanName: FieldComparison
+  followerCount: FieldComparison
 }
 
 // ===== 游戏 =====

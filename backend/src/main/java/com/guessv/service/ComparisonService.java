@@ -20,10 +20,11 @@ public class ComparisonService {
                 compareString(guess.getRegion(), target.getRegion()),
                 compareGroup(guess.getGroupName(), target.getGroupName()),
                 compareYear(guess.getDebutYear(), target.getDebutYear()),
+                compareBirthday(guess.getBirthday(), target.getBirthday()),
                 compareString(guess.getGender(), target.getGender(), this::translateGender),
                 compareString(guess.getActivityStatus(), target.getActivityStatus(), this::translateStatus),
                 compareList(guess.getHairColor(), target.getHairColor()),
-                compareString(guess.getFanName(), target.getFanName())
+                compareFollowerCount(guess.getFollowerCount(), target.getFollowerCount())
         );
     }
 
@@ -73,6 +74,42 @@ public class ComparisonService {
         return new FieldComparison(a, "lower", "↓");
     }
 
+    /**
+     * 生日对比：格式 MM-DD。
+     * 相同 → exact；月份相同 → partial；否则 none。
+     */
+    private FieldComparison compareBirthday(String a, String b) {
+        if (a == null && b == null) return new FieldComparison(null, "exact");
+        if (a == null || b == null) return new FieldComparison(a, "none");
+        if (a.equals(b)) return new FieldComparison(a, "exact");
+        // 月份相同但日期不同 → partial
+        String monthA = a.length() >= 2 ? a.substring(0, 2) : "";
+        String monthB = b.length() >= 2 ? b.substring(0, 2) : "";
+        if (!monthA.isEmpty() && monthA.equals(monthB)) {
+            return new FieldComparison(a, "partial");
+        }
+        return new FieldComparison(a, "none");
+    }
+
+    /**
+     * 粉丝量对比：数值方向箭头。
+     * 相等 → exact；guess < target → higher↑；guess > target → lower↓。
+     * 数值范围感知：差距在 10% 以内 → partial。
+     */
+    private FieldComparison compareFollowerCount(Integer a, Integer b) {
+        if (a == null && b == null) return new FieldComparison(null, "exact");
+        if (a == null || b == null) return new FieldComparison(a, "none");
+        if (a.equals(b)) return new FieldComparison(a, "exact");
+        // 差距在 10% 以内 → partial（近似）
+        double ratio = Math.abs(a - b) / (double) Math.max(a, b);
+        if (ratio <= 0.10) {
+            return new FieldComparison(a, "partial", a < b ? "↑" : "↓");
+        }
+        if (a < b) return new FieldComparison(a, "higher", "↑");
+        return new FieldComparison(a, "lower", "↓");
+    }
+
+    @SuppressWarnings("unchecked")
     private FieldComparison compareList(Collection<String> a, Collection<String> b) {
         if (a == null && b == null) return new FieldComparison(null, "exact");
         if (a == null || b == null) return new FieldComparison(a, "none");

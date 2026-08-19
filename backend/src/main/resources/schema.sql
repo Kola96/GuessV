@@ -35,6 +35,8 @@ CREATE TABLE IF NOT EXISTS vtuber (
     platforms TEXT,
     languages TEXT,
     avatar_url TEXT,
+    birthday TEXT,
+    follower_count INTEGER,
     data_status TEXT,
     data_source TEXT,
     locked_fields TEXT,

@@ -23,11 +23,24 @@ api.interceptors.response.use(
     if (data.code === 200) {
       return { ...response, data: data.data }
     }
+    // 401：token 无效/用户不存在 → 清除登录状态，刷新回到昵称设置页
+    if (data.code === 401) {
+      useUserStore.getState().logout()
+      if (typeof window !== 'undefined') {
+        window.location.reload()
+      }
+    }
     return Promise.reject(new ApiError(data.code, data.message))
   },
   (error: AxiosError) => {
     if (error.response?.data) {
       const data = error.response.data as ApiResult<unknown>
+      if (data.code === 401) {
+        useUserStore.getState().logout()
+        if (typeof window !== 'undefined') {
+          window.location.reload()
+        }
+      }
       return Promise.reject(new ApiError(data.code || 500, data.message))
     }
     return Promise.reject(new ApiError(500, '网络错误'))

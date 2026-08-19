@@ -18,9 +18,18 @@ interface ComparisonRowProps {
 export default function ComparisonRow({ label, field, index }: ComparisonRowProps) {
   const match = field.match as MatchType
   const style = matchStyles[match] || matchStyles.none
-  const displayValue = Array.isArray(field.value)
-    ? field.value.join(' / ')
-    : (field.value as string) || '—'
+
+  // 粉丝量格式化：万为单位
+  const formatValue = (val: unknown): string => {
+    if (typeof val === 'number' && val >= 10000) {
+      return (val / 10000).toFixed(1) + '万'
+    }
+    if (Array.isArray(val)) {
+      return val.join(' / ')
+    }
+    return (val as string) || '—'
+  }
+  const displayValue = formatValue(field.value)
 
   const isArrow = match === 'higher' || match === 'lower'
 

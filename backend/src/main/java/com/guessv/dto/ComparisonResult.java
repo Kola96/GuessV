@@ -5,8 +5,9 @@ public record ComparisonResult(
         FieldComparison region,
         FieldComparison group,
         FieldComparison debutYear,
+        FieldComparison birthday,
         FieldComparison gender,
         FieldComparison status,
         FieldComparison hairColor,
-        FieldComparison fanName
+        FieldComparison followerCount
 ) {}
