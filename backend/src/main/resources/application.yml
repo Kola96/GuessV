@@ -21,3 +21,6 @@ app:
   data:
     list-json-path: ../data/list.json
     import-enabled: true
+  jwt:
+    secret: ${JWT_SECRET:guessv-dev-secret-key-please-change-in-production-at-least-32-chars-long}
+    expiration-hours: 720

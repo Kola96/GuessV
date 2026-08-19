@@ -11,8 +11,8 @@
 | 项目 | 值 |
 |------|-----|
 | **当前阶段** | Phase 1（MVP） |
-| **当前里程碑** | M1 ✅ 已完成（待人工验收），下一步 M2：用户系统 |
-| **当前任务** | M1 全部 8 个任务完成，等待手动测试验收（见 m1-manual-test-plan.md） |
+| **当前里程碑** | M2 ✅ 已完成（待人工验收），下一步 M3：游戏核心 |
+| **当前任务** | M2 全部 6 个任务完成，等待手动测试验收（见 m2-manual-test-plan.md） |
 | **进行中分支** | main |
 | **阻塞事项** | 无 |
 
@@ -45,7 +45,7 @@
 | 里程碑 | 目标 | 状态 | 详细计划 |
 |--------|------|------|----------|
 | **M1** 后端骨架与数据导入 | Spring Boot 可运行，9769 条数据入库，搜索 API 可用 | ✅ | [m1-backend-foundation.md](./phase-1/m1-backend-foundation.md) |
-| **M2** 用户系统 | 昵称+#ID 注册、Token 鉴权、前端昵称弹窗 | ⬜ | 启动时编写 |
+| **M2** 用户系统 | 昵称+#ID 注册、JWT 鉴权、个人信息 API | ✅ | [m2-user-system.md](./phase-1/m2-user-system.md) |
 | **M3** 游戏核心 | 属性对比、每日模式、单人模式 API 全部可用 | ⬜ | 启动时编写 |
 | **M4** 前端游戏界面 | 完整可玩的游戏 UI（React + Framer Motion） | ⬜ | 启动时编写 |
 | **M5** 运营后台基础版 | 管理员登录、VTuber 管理、字段锁定 | ⬜ | 启动时编写 |
@@ -71,13 +71,16 @@
 
 ### M2：用户系统
 
-**目标**：新用户填写昵称即可游玩，凭证存 LocalStorage，API 鉴权可用。
+**目标**：匿名用户可注册（昵称+#游戏ID），JWT 鉴权生效，个人信息 API 可用。
 
-- [ ] Task 1：昵称池与随机昵称 API（含敏感词过滤）
-- [ ] Task 2：用户初始化 API（POST /api/user/init，昵称+#游戏ID，JWT）
-- [ ] Task 3：鉴权拦截器（X-User-Token 解析与校验）
-- [ ] Task 4：前端用户模块（昵称设置弹窗、LocalStorage 凭证、Axios 拦截器）
-- [ ] Task 5：个人信息 API（GET /api/user/profile）
+- [x] Task 1：JWT 工具与依赖
+- [x] Task 2：昵称池与随机昵称 API（含敏感词过滤）
+- [x] Task 3：用户初始化 API（POST /api/user/init，昵称+#游戏ID，JWT）
+- [x] Task 4：鉴权拦截器（X-User-Token 解析与校验）
+- [x] Task 5：个人信息 API（profile / nickname check / change）
+- [x] Task 6：收尾验证与手动测试
+
+> 前端昵称弹窗挪到 M4（React 项目建立后再做）。
 
 ### M3：游戏核心
 
