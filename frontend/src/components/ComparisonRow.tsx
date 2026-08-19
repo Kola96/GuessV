@@ -1,3 +1,4 @@
+import { useRef, useLayoutEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import type { FieldComparison, MatchType } from '../types'
 
@@ -16,7 +17,6 @@ interface ComparisonRowProps {
 }
 
 const PILL_MAX_WIDTH = 120
-const SCROLL_THRESHOLD = 8
 
 export default function ComparisonRow({ label, field, index }: ComparisonRowProps) {
   const match = field.match as MatchType
@@ -33,7 +33,18 @@ export default function ComparisonRow({ label, field, index }: ComparisonRowProp
   }
   const displayValue = formatValue(field.value)
   const isArrow = match === 'higher' || match === 'lower'
-  const needScroll = displayValue.length > SCROLL_THRESHOLD
+
+  // 用 DOM 测量实际文字宽度，决定是否需要滚动
+  const textRef = useRef<HTMLDivElement>(null)
+  const [needScroll, setNeedScroll] = useState(false)
+
+  useLayoutEffect(() => {
+    if (textRef.current) {
+      const textWidth = textRef.current.scrollWidth
+      // pill 可用宽度 = PILL_MAX_WIDTH - 图标宽度(~16px) - padding(~16px)
+      setNeedScroll(textWidth > PILL_MAX_WIDTH - 32)
+    }
+  }, [displayValue])
 
   return (
     <motion.div
@@ -48,7 +59,6 @@ export default function ComparisonRow({ label, field, index }: ComparisonRowProp
       </span>
       <div className="overflow-hidden" style={{ minWidth: 0, maxWidth: `${PILL_MAX_WIDTH}px` }}>
         {needScroll ? (
-          // 循环滚动：文字重复两份，translateX 0→-50% 无缝循环
           <div
             className="text-xs whitespace-nowrap inline-flex"
             style={{ animation: 'scroll-loop 8s linear infinite' }}
@@ -57,7 +67,7 @@ export default function ComparisonRow({ label, field, index }: ComparisonRowProp
             <span className="pr-8">{displayValue}</span>
           </div>
         ) : (
-          <div className="text-xs whitespace-nowrap">
+          <div ref={textRef} className="text-xs whitespace-nowrap">
             {displayValue}
           </div>
         )}
