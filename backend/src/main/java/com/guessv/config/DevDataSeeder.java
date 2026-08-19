@@ -36,7 +36,7 @@ public class DevDataSeeder {
     public void seed() {
         long activeCount = vtuberMapper.selectCount(
                 new QueryWrapper<Vtuber>().eq("data_status", "active"));
-        if (activeCount >= 10) {
+        if (activeCount >= 15) {
             log.info("已有 {} 条 active 数据，跳过种子数据", activeCount);
             return;
         }
@@ -81,7 +81,28 @@ public class DevDataSeeder {
                 build("seed-shion", "紫咲诗音", "Murasaki Shion", "紫咲シオン", "cn",
                         2018, LocalDate.of(2018, 8, 17), "日本", "Hololive",
                         "active", "female", List.of("紫"), List.of("橙"),
-                        "塩っ子", "#9966CC", List.of("YouTube", "Twitter"), List.of("日语"))
+                        "塩っ子", "#9966CC", List.of("YouTube", "Twitter"), List.of("日语")),
+                // ===== VirtuaReal 头部成员（数据来源：萌娘百科） =====
+                build("seed-nana7mi", "七海Nana7mi", "Nana7mi", null, "cn",
+                        2019, LocalDate.of(2019, 5, 11), "中国", "VirtuaReal",
+                        "active", "female", List.of("棕"), List.of("金"),
+                        "脆鲨", "#418BDE", List.of("bilibili", "YouTube"), List.of("汉语")),
+                build("seed-guangyi", "中单光一", "Guangyi", null, "cn",
+                        2019, LocalDate.of(2019, 5, 11), "中国", "VirtuaReal",
+                        "active", "male", List.of("棕"), List.of("灰"),
+                        "光一军", "#3B3B3B", List.of("bilibili"), List.of("汉语")),
+                build("seed-xiaoke", "小可学妹", "Xiaoke", null, "cn",
+                        2019, LocalDate.of(2019, 5, 18), "中国", "VirtuaReal",
+                        "active", "female", List.of("黑"), List.of("红"),
+                        "小可饼", "#FF6B6B", List.of("bilibili", "weibo"), List.of("汉语")),
+                build("seed-miki", "弥希Miki", "Miki", null, "cn",
+                        2020, LocalDate.of(2020, 2, 12), "中国", "VirtuaReal",
+                        "active", "female", List.of("黑"), List.of("紫"),
+                        "弥希家的", "#9D8DF1", List.of("bilibili"), List.of("汉语")),
+                build("seed-sui", "岁己SUI", "SUI", null, "cn",
+                        2022, LocalDate.of(2022, 8, 23), "中国", "VirtuaReal",
+                        "active", "female", List.of("银"), List.of("红"),
+                        "岁己家的", "#E8E8E8", List.of("bilibili"), List.of("汉语"))
         );
 
         int inserted = 0;

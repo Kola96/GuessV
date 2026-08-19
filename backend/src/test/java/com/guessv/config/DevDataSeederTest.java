@@ -25,7 +25,7 @@ class DevDataSeederTest {
         seeder.seed();
         long active = vtuberMapper.selectCount(
                 new QueryWrapper<Vtuber>().eq("data_status", "active"));
-        assertTrue(active >= 10, "应有至少 10 条 active 数据");
+        assertTrue(active >= 15, "应有至少 15 条 active 数据");
     }
 
     @Test
