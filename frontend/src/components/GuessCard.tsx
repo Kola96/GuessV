@@ -16,13 +16,14 @@ const fieldLabels: Record<string, string> = {
 export default function GuessCard({ entry, index }: GuessCardProps) {
   const c = entry.comparison
   const fields = [
-    { key: 'region', label: '地区', field: c.region },
+    { key: 'platforms', label: '平台', field: c.platforms },
     { key: 'group', label: '团体', field: c.group },
     { key: 'debutYear', label: '出道', field: c.debutYear },
     { key: 'birthday', label: '生日', field: c.birthday },
     { key: 'gender', label: '性别', field: c.gender },
     { key: 'status', label: '状态', field: c.status },
     { key: 'hairColor', label: '发色', field: c.hairColor },
+    { key: 'languages', label: '语言', field: c.languages },
     { key: 'followerCount', label: '粉丝', field: c.followerCount },
   ]
 
