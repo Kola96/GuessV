@@ -51,7 +51,7 @@
   }
 }
 
-@keyframes scroll-text {
-  0%, 15% { transform: translateX(0); }
-  85%, 100% { transform: translateX(calc(-100% + 80px)); }
+@keyframes scroll-loop {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }

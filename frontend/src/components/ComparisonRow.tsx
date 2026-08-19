@@ -15,6 +15,9 @@ interface ComparisonRowProps {
   index: number
 }
 
+const PILL_MAX_WIDTH = 120
+const SCROLL_THRESHOLD = 8
+
 export default function ComparisonRow({ label, field, index }: ComparisonRowProps) {
   const match = field.match as MatchType
   const style = matchStyles[match] || matchStyles.none
@@ -30,6 +33,7 @@ export default function ComparisonRow({ label, field, index }: ComparisonRowProp
   }
   const displayValue = formatValue(field.value)
   const isArrow = match === 'higher' || match === 'lower'
+  const needScroll = displayValue.length > SCROLL_THRESHOLD
 
   return (
     <motion.div
@@ -42,15 +46,21 @@ export default function ComparisonRow({ label, field, index }: ComparisonRowProp
       <span className={`text-xs shrink-0 ${style.text}`}>
         {isArrow ? field.direction : style.icon}
       </span>
-      <div className="overflow-hidden" style={{ minWidth: 0, maxWidth: '120px' }}>
-        <div
-          className="text-xs whitespace-nowrap"
-          style={{
-            animation: displayValue.length > 8 ? 'scroll-text 6s linear infinite' : 'none',
-          }}
-        >
-          {displayValue}
-        </div>
+      <div className="overflow-hidden" style={{ minWidth: 0, maxWidth: `${PILL_MAX_WIDTH}px` }}>
+        {needScroll ? (
+          // 循环滚动：文字重复两份，translateX 0→-50% 无缝循环
+          <div
+            className="text-xs whitespace-nowrap inline-flex"
+            style={{ animation: 'scroll-loop 8s linear infinite' }}
+          >
+            <span className="pr-8">{displayValue}</span>
+            <span className="pr-8">{displayValue}</span>
+          </div>
+        ) : (
+          <div className="text-xs whitespace-nowrap">
+            {displayValue}
+          </div>
+        )}
       </div>
     </motion.div>
   )
