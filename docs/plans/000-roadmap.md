@@ -10,9 +10,9 @@
 
 | 项目 | 值 |
 |------|-----|
-| **当前阶段** | Phase 1（MVP） |
-| **当前里程碑** | M5：运营后台基础版 🚧 |
-| **当前任务** | Task 1：管理员认证 |
+| **当前阶段** | Phase 1（MVP）✅ 全部完成 |
+| **当前里程碑** | M5 ✅ 已完成，Phase 1 MVP 全部交付 |
+| **当前任务** | 等待整体验收 |
 | **进行中分支** | main |
 | **阻塞事项** | 无 |
 
@@ -48,7 +48,7 @@
 | **M2** 用户系统 | 昵称+#ID 注册、JWT 鉴权、个人信息 API | ✅ | [m2-user-system.md](./phase-1/m2-user-system.md) |
 | **M3** 游戏核心 | 属性对比、每日模式、单人模式 API 全部可用 | ✅ | [m3-game-core.md](./phase-1/m3-game-core.md) |
 | **M4** 前端游戏界面 | 完整可玩的游戏 UI（React + Framer Motion） | ✅ | [m4-frontend.md](./phase-1/m4-frontend.md) |
-| **M5** 运营后台基础版 | 管理员登录、VTuber 管理、字段锁定 | 🚧 | [m5-admin.md](./phase-1/m5-admin.md) |
+| **M5** 运营后台基础版 | 管理员登录、VTuber 管理、字段锁定 | ✅ | [m5-admin.md](./phase-1/m5-admin.md) |
 
 **依赖关系**：M1 → M2 → M3 → M4 → M5（严格串行，每个里程碑产出可独立验证的软件）
 
@@ -110,12 +110,12 @@
 
 **目标**：管理员可登录后台，完成 VTuber 状态流转和属性编辑。
 
-- [ ] Task 1：管理员账号与登录 API（BCrypt + JWT）
-- [ ] Task 2：VTuber 管理 API（列表 / 详情 / 编辑 / 状态流转 / 字段锁定）
-- [ ] Task 3：后台前端骨架（登录页 + 管理布局）
-- [ ] Task 4：VTuber 列表页（状态筛选 / 搜索 / 分页）
-- [ ] Task 5：VTuber 编辑页（锁定标识、保存自动锁定）
-- [ ] Task 6：数据看板基础版（各状态数量统计）
+- [x] Task 1：管理员账号与登录 API（BCrypt + JWT）
+- [x] Task 2：VTuber 管理 API（列表 / 详情 / 编辑 / 状态流转 / 字段锁定）
+- [x] Task 3：后台前端骨架（登录页 + 管理布局）
+- [x] Task 4：VTuber 列表页（状态筛选 / 搜索 / 分页）
+- [x] Task 5：VTuber 编辑页（锁定标识、保存自动锁定）
+- [x] Task 6：数据看板基础版（各状态数量统计）
 
 ---
 
