@@ -44,7 +44,7 @@ public class DevDataSeeder {
         List<Vtuber> seeds = List.of(
                 build("seed-gura", "噶呜·古拉", "Gawr Gura", "がうる・ぐら", "cn",
                         2020, LocalDate.of(2020, 9, 13), "英语圈", "Hololive EN",
-                        "active", "female", List.of("蓝", "白"),
+                        "graduated", "female", List.of("蓝", "白"),
                         "Shrimp", "#1E90FF", List.of("YouTube", "Twitter", "Bilibili"), List.of("英语", "日语"),
                         "06-20", 4400000),
                 build("seed-calli", "森美声", "Mori Calliope", "森カリオペ", "cn",
@@ -84,7 +84,7 @@ public class DevDataSeeder {
                         "03-01", 1400000),
                 build("seed-aqua", "凑阿库娅", "Minato Aqua", "湊あくあ", "cn",
                         2018, LocalDate.of(2018, 8, 8), "日本", "Hololive",
-                        "active", "female", List.of("紫"),
+                        "graduated", "female", List.of("紫"),
                         "Aqua Crew", "#B388FF", List.of("YouTube", "Twitter", "Bilibili"), List.of("日语"),
                         "12-01", 1800000),
                 build("seed-shion", "紫咲诗音", "Murasaki Shion", "紫咲シオン", "cn",
