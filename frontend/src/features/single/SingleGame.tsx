@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { gameApi } from '../../services/game'
 import { ApiError } from '../../services/api'
 import type { GuessEntry, GuessResponse, PoolVO, SingleStartResponse, VtuberSearchResult } from '../../types'
-import GuessCard from '../../components/GuessCard'
+import GuessCard, { TABLE_COLUMNS } from '../../components/GuessCard'
 import SearchInput from '../../components/SearchInput'
 import ResultBanner from '../../components/ResultBanner'
 
@@ -143,11 +143,31 @@ export default function SingleGame() {
         onDismiss={() => setDismissed(true)}
       />
 
-      <div className="space-y-2">
-        {guesses.map((g, i) => (
-          <GuessCard key={`${g.vtuberId}-${i}`} entry={g} index={i} />
-        ))}
-      </div>
+      {guesses.length > 0 && (
+        <div className="overflow-x-auto rounded-lg border border-white/5">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-elevated/60">
+                {TABLE_COLUMNS.map((col) => (
+                  <th
+                    key={col.key}
+                    className={`px-2 py-2 text-xs font-medium text-text-secondary border border-white/5 ${
+                      col.key === 'name' ? 'sticky left-0 bg-elevated/60 z-10 text-left' : 'text-center'
+                    }`}
+                  >
+                    {col.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {guesses.map((g, i) => (
+                <GuessCard key={`${g.vtuberId}-${i}`} entry={g} index={i} />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {guesses.length === 0 && !gameOver && (
         <motion.div

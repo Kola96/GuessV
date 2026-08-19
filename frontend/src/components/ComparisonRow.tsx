@@ -10,15 +10,14 @@ const matchStyles: Record<MatchType, { bg: string; text: string; icon: string }>
   lower:  { bg: 'bg-none/15 border-white/5', text: 'text-partial', icon: '↓' },
 }
 
-interface ComparisonRowProps {
-  label: string
+interface TableCellProps {
   field: FieldComparison
   index: number
 }
 
-const PILL_MAX_WIDTH = 120
+const CELL_MAX_WIDTH = 100
 
-export default function ComparisonRow({ label, field, index }: ComparisonRowProps) {
+export default function ComparisonRow({ field, index }: TableCellProps) {
   const match = field.match as MatchType
   const style = matchStyles[match] || matchStyles.none
 
@@ -34,44 +33,43 @@ export default function ComparisonRow({ label, field, index }: ComparisonRowProp
   const displayValue = formatValue(field.value)
   const isArrow = match === 'higher' || match === 'lower'
 
-  // 用 DOM 测量实际文字宽度，决定是否需要滚动
   const textRef = useRef<HTMLDivElement>(null)
   const [needScroll, setNeedScroll] = useState(false)
 
   useLayoutEffect(() => {
     if (textRef.current) {
       const textWidth = textRef.current.scrollWidth
-      // pill 可用宽度 = PILL_MAX_WIDTH - 图标宽度(~16px) - padding(~16px)
-      setNeedScroll(textWidth > PILL_MAX_WIDTH - 32)
+      setNeedScroll(textWidth > CELL_MAX_WIDTH - 8)
     }
   }, [displayValue])
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
+    <motion.td
+      initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: index * 0.06 }}
-      className={`shrink-0 px-2 py-1 rounded-md border ${style.bg} flex items-center gap-1 overflow-hidden`}
-      style={{ minWidth: 0 }}
+      transition={{ delay: index * 0.05 }}
+      className={`px-2 py-1.5 border border-white/5 text-center ${style.bg}`}
     >
-      <span className={`text-xs shrink-0 ${style.text}`}>
-        {isArrow ? field.direction : style.icon}
-      </span>
-      <div className="overflow-hidden" style={{ minWidth: 0, maxWidth: `${PILL_MAX_WIDTH}px` }}>
-        {needScroll ? (
-          <div
-            className="text-xs whitespace-nowrap inline-flex"
-            style={{ animation: 'scroll-loop 8s linear infinite' }}
-          >
-            <span className="pr-8">{displayValue}</span>
-            <span className="pr-8">{displayValue}</span>
-          </div>
-        ) : (
-          <div ref={textRef} className="text-xs whitespace-nowrap">
-            {displayValue}
-          </div>
-        )}
+      <div className="flex items-center justify-center gap-1">
+        <span className={`text-xs shrink-0 ${style.text}`}>
+          {isArrow ? field.direction : style.icon}
+        </span>
+        <div className="overflow-hidden" style={{ maxWidth: `${CELL_MAX_WIDTH}px` }}>
+          {needScroll ? (
+            <div
+              className="text-xs whitespace-nowrap inline-flex"
+              style={{ animation: 'scroll-loop 8s linear infinite' }}
+            >
+              <span className="pr-6">{displayValue}</span>
+              <span className="pr-6">{displayValue}</span>
+            </div>
+          ) : (
+            <div ref={textRef} className="text-xs whitespace-nowrap" style={{ color: 'inherit' }}>
+              <span className={style.text}>{displayValue}</span>
+            </div>
+          )}
+        </div>
       </div>
-    </motion.div>
+    </motion.td>
   )
 }
