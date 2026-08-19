@@ -11,8 +11,8 @@
 | 项目 | 值 |
 |------|-----|
 | **当前阶段** | Phase 1（MVP） |
-| **当前里程碑** | M3 ✅ 已完成（待人工验收），下一步 M4：前端游戏界面 |
-| **当前任务** | M3 全部 5 个任务完成，等待手动测试验收（见 m3-manual-test-plan.md） |
+| **当前里程碑** | M4 ✅ 已完成（待人工验收），下一步 M5：运营后台基础版 |
+| **当前任务** | M4 全部 9 个任务完成，等待手动测试验收（见 m4-manual-test-plan.md） |
 | **进行中分支** | main |
 | **阻塞事项** | 无 |
 
@@ -47,7 +47,7 @@
 | **M1** 后端骨架与数据导入 | Spring Boot 可运行，9769 条数据入库，搜索 API 可用 | ✅ | [m1-backend-foundation.md](./phase-1/m1-backend-foundation.md) |
 | **M2** 用户系统 | 昵称+#ID 注册、JWT 鉴权、个人信息 API | ✅ | [m2-user-system.md](./phase-1/m2-user-system.md) |
 | **M3** 游戏核心 | 属性对比、每日模式、单人模式 API 全部可用 | ✅ | [m3-game-core.md](./phase-1/m3-game-core.md) |
-| **M4** 前端游戏界面 | 完整可玩的游戏 UI（React + Framer Motion） | ⬜ | 启动时编写 |
+| **M4** 前端游戏界面 | 完整可玩的游戏 UI（React + Framer Motion） | ✅ | [m4-frontend.md](./phase-1/m4-frontend.md) |
 | **M5** 运营后台基础版 | 管理员登录、VTuber 管理、字段锁定 | ⬜ | 启动时编写 |
 
 **依赖关系**：M1 → M2 → M3 → M4 → M5（严格串行，每个里程碑产出可独立验证的软件）
@@ -96,15 +96,15 @@
 
 **目标**：浏览器里完整可玩每日模式和单人模式。
 
-- [ ] Task 1：React 项目骨架（Vite + Tailwind + Framer Motion + Zustand + Router）
-- [ ] Task 2：API service 层 + TypeScript 类型定义
-- [ ] Task 3：游戏布局（顶栏 / 状态栏 / 猜测记录区 / 输入区）
-- [ ] Task 4：猜测输入框与自动补全
-- [ ] Task 5：猜测卡片与属性对比逐行揭示动画
-- [ ] Task 6：每日模式页面
-- [ ] Task 7：单人模式页面（题库选择 + 无限重开）
-- [ ] Task 8：胜负反馈（庆祝动画 / 答案揭晓）
-- [ ] Task 9：响应式适配 + 打包进后端 static 联调
+- [x] Task 1：React 项目骨架（Vite + Tailwind + Framer Motion + Zustand + Router）
+- [x] Task 2：API service 层 + TypeScript 类型定义
+- [x] Task 3：游戏布局（顶栏 / 状态栏 / 猜测记录区 / 输入区）
+- [x] Task 4：猜测输入框与自动补全
+- [x] Task 5：猜测卡片与属性对比逐行揭示动画
+- [x] Task 6：每日模式页面
+- [x] Task 7：单人模式页面（题库选择 + 无限重开）
+- [x] Task 8：胜负反馈（庆祝动画 / 答案揭晓）
+- [x] Task 9：响应式适配 + 打包进后端 static 联调
 
 ### M5：运营后台基础版
 
