@@ -11,8 +11,8 @@
 | 项目 | 值 |
 |------|-----|
 | **当前阶段** | Phase 1（MVP） |
-| **当前里程碑** | M2 ✅ 已完成（待人工验收），下一步 M3：游戏核心 |
-| **当前任务** | M2 全部 6 个任务完成，等待手动测试验收（见 m2-manual-test-plan.md） |
+| **当前里程碑** | M3 ✅ 已完成（待人工验收），下一步 M4：前端游戏界面 |
+| **当前任务** | M3 全部 5 个任务完成，等待手动测试验收（见 m3-manual-test-plan.md） |
 | **进行中分支** | main |
 | **阻塞事项** | 无 |
 
@@ -46,7 +46,7 @@
 |--------|------|------|----------|
 | **M1** 后端骨架与数据导入 | Spring Boot 可运行，9769 条数据入库，搜索 API 可用 | ✅ | [m1-backend-foundation.md](./phase-1/m1-backend-foundation.md) |
 | **M2** 用户系统 | 昵称+#ID 注册、JWT 鉴权、个人信息 API | ✅ | [m2-user-system.md](./phase-1/m2-user-system.md) |
-| **M3** 游戏核心 | 属性对比、每日模式、单人模式 API 全部可用 | ⬜ | 启动时编写 |
+| **M3** 游戏核心 | 属性对比、每日模式、单人模式 API 全部可用 | ✅ | [m3-game-core.md](./phase-1/m3-game-core.md) |
 | **M4** 前端游戏界面 | 完整可玩的游戏 UI（React + Framer Motion） | ⬜ | 启动时编写 |
 | **M5** 运营后台基础版 | 管理员登录、VTuber 管理、字段锁定 | ⬜ | 启动时编写 |
 
@@ -86,11 +86,11 @@
 
 **目标**：每日模式和单人模式的全部游戏 API 可用，对比规则正确。
 
-- [ ] Task 1：属性对比服务（7 维度对比规则，单测全覆盖）
-- [ ] Task 2：每日目标定时任务（每日 00:00 UTC+8 刷新，排除近 30 天）
-- [ ] Task 3：每日模式 API（GET /api/game/daily + POST /api/game/daily/guess）
-- [ ] Task 4：单人模式 API（pools / start / guess / end，会话管理）
-- [ ] Task 5：游戏记录持久化与断线恢复
+- [x] Task 1：属性对比服务（7 维度对比规则，单测全覆盖）
+- [x] Task 2：每日目标定时任务（每日 00:00 UTC+8 刷新，排除近 30 天）
+- [x] Task 3：每日模式 API（GET /api/game/daily + POST /api/game/daily/guess）
+- [x] Task 4：单人模式 API（pools / start / guess / end，会话管理）
+- [x] Task 5：游戏记录持久化与断线恢复
 
 ### M4：前端游戏界面
 
