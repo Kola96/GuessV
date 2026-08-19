@@ -166,7 +166,7 @@ class ComparisonServiceTest {
                 "female", "active", List.of("白"), List.of("日语"), 100000);
         Vtuber t = v("B", List.of("bilibili"), "G", 2020, "02-02",
                 "female", "graduated", List.of("白"), List.of("日语"), 200000);
-        assertEquals("活动", comparisonService.compare(g, t).status().value());
-        assertEquals("毕业", comparisonService.compare(t, g).status().value());
+        assertEquals("活跃中", comparisonService.compare(g, t).status().value());
+        assertEquals("不活跃", comparisonService.compare(t, g).status().value());
     }
 }

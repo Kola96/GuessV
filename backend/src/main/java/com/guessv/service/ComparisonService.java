@@ -121,12 +121,6 @@ public class ComparisonService {
 
     private String translateStatus(String s) {
         if (s == null) return null;
-        return switch (s) {
-            case "active" -> "活动";
-            case "graduated" -> "毕业";
-            case "hiatus" -> "休止";
-            case "suspended" -> "暂停";
-            default -> s;
-        };
+        return "active".equals(s) ? "活跃中" : "不活跃";
     }
 }
