@@ -1603,7 +1603,7 @@ git commit -m "feat(backend): list.json 数据导入器（启动时自动导入�
 
 **目标**：插入 10 位完整属性的 active VTuber，用于 M3 游戏逻辑开发和 M4 前端联调。
 
-- [ ] **Step 1：编写种子数据测试（TDD）**
+- [x] **Step 1：编写种子数据测试（TDD）**
 
 `backend/src/test/java/com/guessv/config/DevDataSeederTest.java`:
 
@@ -1652,7 +1652,7 @@ class DevDataSeederTest {
 }
 ```
 
-- [ ] **Step 2：实现 DevDataSeeder**
+- [x] **Step 2：实现 DevDataSeeder**
 
 `backend/src/main/java/com/guessv/config/DevDataSeeder.java`:
 
@@ -1769,7 +1769,7 @@ public class DevDataSeeder {
 }
 ```
 
-- [ ] **Step 3：运行测试验证**
+- [x] **Step 3：运行测试验证**
 
 Run:
 ```bash
@@ -1777,7 +1777,7 @@ cd backend && mvn test -Dtest=DevDataSeederTest -q
 ```
 Expected: 两个测试通过
 
-- [ ] **Step 4：将种子数据加入启动流程**
+- [x] **Step 4：将种子数据加入启动流程**
 
 修改 `DataImportRunner`（Task 5 Step 6 创建的文件），在导入后调用种子：
 
@@ -1797,7 +1797,7 @@ private final DataImportService dataImportService;
 private final DevDataSeeder devDataSeeder;
 ```
 
-- [ ] **Step 5：运行全部测试验证**
+- [x] **Step 5：运行全部测试验证**
 
 Run:
 ```bash
@@ -1805,7 +1805,7 @@ cd backend && mvn test -q
 ```
 Expected: 全部通过
 
-- [ ] **Step 6：提交**
+- [x] **Step 6：提交**
 
 ```bash
 git add backend/
@@ -1826,7 +1826,7 @@ git commit -m "feat(backend): 开发种子数据（10 位完整属性 VTuber）"
 - Consumes: `VtuberMapper`（Task 3 产出）、`DevDataSeeder`（Task 6 产出）
 - Produces: `GET /api/vtuber/search?keyword=xxx&limit=10`
 
-- [ ] **Step 1：创建搜索 VO**
+- [x] **Step 1：创建搜索 VO**
 
 `backend/src/main/java/com/guessv/dto/VtuberSearchVO.java`:
 
@@ -1845,7 +1845,7 @@ public record VtuberSearchVO(
 }
 ```
 
-- [ ] **Step 2：编写搜索 API 测试（TDD）**
+- [x] **Step 2：编写搜索 API 测试（TDD）**
 
 `backend/src/test/java/com/guessv/controller/VtuberControllerTest.java`:
 
@@ -1915,7 +1915,7 @@ class VtuberControllerTest {
 }
 ```
 
-- [ ] **Step 3：实现 VtuberService**
+- [x] **Step 3：实现 VtuberService**
 
 `backend/src/main/java/com/guessv/service/VtuberService.java`:
 
@@ -1978,7 +1978,7 @@ public class VtuberService {
 
 > 注意：此处用 `.last("LIMIT " + limit)` 是因为搜索不需要分页的 offset，仅取前 N 条。这是 MyBatis-Plus 标准方法，非数据库方言。
 
-- [ ] **Step 4：实现 VtuberController**
+- [x] **Step 4：实现 VtuberController**
 
 `backend/src/main/java/com/guessv/controller/VtuberController.java`:
 
@@ -2009,7 +2009,7 @@ public class VtuberController {
 }
 ```
 
-- [ ] **Step 5：运行测试验证通过**
+- [x] **Step 5：运行测试验证通过**
 
 Run:
 ```bash
@@ -2017,7 +2017,7 @@ cd backend && mvn test -Dtest=VtuberControllerTest -q
 ```
 Expected: 4 个测试通过
 
-- [ ] **Step 6：提交**
+- [x] **Step 6：提交**
 
 ```bash
 git add backend/
@@ -2031,7 +2031,7 @@ git commit -m "feat(backend): VTuber 搜索 API"
 **Files:**
 - Modify: `backend/src/main/resources/application.yml`（关闭 SQL 日志）
 
-- [ ] **Step 1：关闭开发环境的 SQL 日志（减少噪音）**
+- [x] **Step 1：关闭开发环境的 SQL 日志（减少噪音）**
 
 修改 `application.yml`，将 `log-impl` 行改为：
 ```yaml
@@ -2044,7 +2044,7 @@ mybatis-plus:
 ```
 （删除 `log-impl: ...StdOutImpl` 行，或注释掉）
 
-- [ ] **Step 2：运行全部测试**
+- [x] **Step 2：运行全部测试**
 
 Run:
 ```bash
@@ -2052,7 +2052,7 @@ cd backend && mvn test -q
 ```
 Expected: 全部通过（HealthControllerTest、VtuberMapperTest、EntitiesSmokeTest、DataImportServiceTest、DevDataSeederTest、VtuberControllerTest）
 
-- [ ] **Step 3：手动启动验证全量导入**
+- [x] **Step 3：手动启动验证全量导入**
 
 Run:
 ```bash
@@ -2070,14 +2070,14 @@ Expected:
 
 Ctrl+C 停止后端。
 
-- [ ] **Step 4：更新路线图状态**
+- [x] **Step 4：更新路线图状态**
 
 修改 `docs/plans/000-roadmap.md`：
 - 「当前状态」表的「当前里程碑」改为 `M1 ✅ 完成，待开始 M2`
 - M1 状态改为 ✅
 - 「当前任务」改为 `M1 全部完成`
 
-- [ ] **Step 5：提交并推送**
+- [x] **Step 5：提交并推送**
 
 ```bash
 git add -A
@@ -2089,14 +2089,14 @@ git push
 
 ## M1 完成标准（Definition of Done）
 
-- [ ] `mvn spring-boot:run -Dspring-boot.run.profiles=dev` 能正常启动
-- [ ] 首次启动自动导入 list.json 全量数据（~10000 条 raw 状态）
-- [ ] 首次启动自动插入 10 条种子数据（active 状态，完整属性）
-- [ ] `GET /api/health` 返回 200
-- [ ] `GET /api/vtuber/search?keyword=gura` 返回搜索结果
-- [ ] 搜索仅返回 active/verified 状态的 VTuber
-- [ ] 全部测试通过：`mvn test`
-- [ ] 代码已提交并推送到 GitHub
+- [x] `mvn spring-boot:run -Dspring-boot.run.profiles=dev` 能正常启动
+- [x] 首次启动自动导入 list.json 全量数据（9769 条 raw 状态）
+- [x] 首次启动自动插入 10 条种子数据（active 状态，完整属性）
+- [x] `GET /api/health` 返回 200
+- [x] `GET /api/vtuber/search?keyword=gura` 返回搜索结果
+- [x] 搜索仅返回 active/verified 状态的 VTuber
+- [x] 全部测试通过：`mvn test`（13 个测试）
+- [x] 代码已提交并推送到 GitHub
 
 ---
 

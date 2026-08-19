@@ -13,9 +13,11 @@ import org.springframework.stereotype.Component;
 public class DataImportRunner implements ApplicationRunner {
 
     private final DataImportService dataImportService;
+    private final DevDataSeeder devDataSeeder;
 
     @Override
     public void run(ApplicationArguments args) {
         dataImportService.importIfEmpty();
+        devDataSeeder.seedIfEnabled();
     }
 }

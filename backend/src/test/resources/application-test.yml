@@ -11,3 +11,4 @@ app:
   data:
     list-json-path: classpath:fixtures/list-sample.json
     import-enabled: false
+    seed-enabled: false

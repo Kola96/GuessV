@@ -11,8 +11,8 @@
 | 项目 | 值 |
 |------|-----|
 | **当前阶段** | Phase 1（MVP） |
-| **当前里程碑** | M1：后端骨架与数据导入 🚧 |
-| **当前任务** | Task 5 ✅ 完成（9769 条已入库），下一步 Task 6（开发种子数据） |
+| **当前里程碑** | M1 ✅ 已完成（待人工验收），下一步 M2：用户系统 |
+| **当前任务** | M1 全部 8 个任务完成，等待手动测试验收（见 m1-manual-test-plan.md） |
 | **进行中分支** | main |
 | **阻塞事项** | 无 |
 
@@ -44,7 +44,7 @@
 
 | 里程碑 | 目标 | 状态 | 详细计划 |
 |--------|------|------|----------|
-| **M1** 后端骨架与数据导入 | Spring Boot 可运行，10014 条数据入库，搜索 API 可用 | 🚧 | [m1-backend-foundation.md](./phase-1/m1-backend-foundation.md) |
+| **M1** 后端骨架与数据导入 | Spring Boot 可运行，9769 条数据入库，搜索 API 可用 | ✅ | [m1-backend-foundation.md](./phase-1/m1-backend-foundation.md) |
 | **M2** 用户系统 | 昵称+#ID 注册、Token 鉴权、前端昵称弹窗 | ⬜ | 启动时编写 |
 | **M3** 游戏核心 | 属性对比、每日模式、单人模式 API 全部可用 | ⬜ | 启动时编写 |
 | **M4** 前端游戏界面 | 完整可玩的游戏 UI（React + Framer Motion） | ⬜ | 启动时编写 |
@@ -65,9 +65,9 @@
 - [x] Task 3：VTuber 与团体实体 + Mapper（含 JSON TypeHandler）
 - [x] Task 4：其余实体（User / DailyTarget / GameRecord / PoolTag / OperationLog / Room / RoomPlayer）
 - [x] Task 5：list.json 数据导入器（空表时自动导入）
-- [ ] Task 6：开发种子数据（10 位完整属性的 active VTuber）
-- [ ] Task 7：VTuber 搜索 API
-- [ ] Task 8：收尾验证与提交
+- [x] Task 6：开发种子数据（10 位完整属性的 active VTuber）
+- [x] Task 7：VTuber 搜索 API
+- [x] Task 8：收尾验证与提交
 
 ### M2：用户系统
 
