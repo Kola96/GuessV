@@ -1,12 +1,32 @@
 // ===== VTuber =====
 export interface Vtuber {
   id: number
-  name: string
+  uuid?: string
+  name?: string
   nameCn?: string
   nameEn?: string
-  avatarUrl?: string
-  groupName?: string
+  nameJp?: string
+  nameDefault?: string
+  aliases?: string[]
+  debutYear?: number
+  debutDate?: string
   region?: string
+  groupId?: number
+  groupName?: string
+  activityStatus?: string
+  gender?: string
+  hairColor?: string[]
+  eyeColor?: string[]
+  fanName?: string
+  representativeColor?: string
+  platforms?: string[]
+  languages?: string[]
+  avatarUrl?: string
+  birthday?: string
+  followerCount?: number
+  dataStatus?: string
+  dataSource?: string
+  lockedFields?: string[]
 }
 
 export interface VtuberSearchResult {

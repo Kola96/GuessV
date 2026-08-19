@@ -1,7 +1,5 @@
 package com.guessv.config;
 
-import com.guessv.util.JwtUtil;
-import com.guessv.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -18,9 +16,11 @@ import java.io.IOException;
 public class WebMvcConfig implements WebMvcConfigurer {
 
     private final AuthInterceptor authInterceptor;
+    private final AdminAuthInterceptor adminAuthInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        // 用户 API 拦截器
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/api/**")
                 .excludePathPatterns(
@@ -31,6 +31,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/api/vtuber/search",
                         "/api/admin/**"
                 );
+
+        // 管理员 API 拦截器（除 login 外都需要 admin token）
+        registry.addInterceptor(adminAuthInterceptor)
+                .addPathPatterns("/api/admin/**")
+                .excludePathPatterns("/api/admin/login");
     }
 
     @Override
@@ -45,11 +50,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         if (requested.exists() && requested.isReadable()) {
                             return requested;
                         }
-                        // API 路径不走 fallback
                         if (path.startsWith("api/")) {
                             return null;
                         }
-                        // 其他路径 fallback 到 index.html（SPA 路由）
                         Resource index = new ClassPathResource("/static/index.html");
                         return index.exists() ? index : null;
                     }

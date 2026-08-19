@@ -160,3 +160,12 @@ CREATE TABLE IF NOT EXISTS crawl_log (
     error_message TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+-- 管理员表
+CREATE TABLE IF NOT EXISTS admin (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+    role TEXT DEFAULT 'admin',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);

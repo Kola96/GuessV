@@ -1,10 +1,15 @@
-import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useUserStore } from './stores/userStore'
+import { useAdminStore } from './stores/adminStore'
 import NicknameSetup from './components/NicknameSetup'
 import Header from './components/Header'
 import DailyGame from './features/daily/DailyGame'
 import SingleGame from './features/single/SingleGame'
+import AdminLogin from './features/admin/AdminLogin'
+import AdminLayout from './features/admin/AdminLayout'
+import AdminDashboard from './features/admin/AdminDashboard'
+import AdminVtuberList from './features/admin/AdminVtuberList'
+import AdminVtuberEdit from './features/admin/AdminVtuberEdit'
 
 function GameLayout() {
   return (
@@ -19,19 +24,32 @@ function GameLayout() {
   )
 }
 
+function AdminRoutes() {
+  const { token } = useAdminStore()
+  if (!token) return <AdminLogin />
+  return (
+    <AdminLayout>
+      <Routes>
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/vtuber" element={<AdminVtuberList />} />
+        <Route path="/admin/vtuber/:id" element={<AdminVtuberEdit />} />
+        <Route path="/admin/*" element={<Navigate to="/admin" replace />} />
+      </Routes>
+    </AdminLayout>
+  )
+}
+
 export default function App() {
   const { token } = useUserStore()
 
-  // 页面加载时不需要做额外初始化，token 有则进入游戏
-  useEffect(() => {}, [])
-
-  if (!token) {
-    return <NicknameSetup />
-  }
-
   return (
     <BrowserRouter>
-      <GameLayout />
+      <Routes>
+        {/* 后台路由 */}
+        <Route path="/admin/*" element={<AdminRoutes />} />
+        {/* 游戏路由 */}
+        <Route path="/*" element={!token ? <NicknameSetup /> : <GameLayout />} />
+      </Routes>
     </BrowserRouter>
   )
 }
