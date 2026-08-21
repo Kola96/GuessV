@@ -206,6 +206,12 @@ public class FollowerSyncService {
         boolean hasBili = biliFollower >= CN_BILI_THRESHOLD;
         boolean hasYoutube = vtb.getPlatforms() != null && vtb.getPlatforms().contains("youtube");
 
+        // Hololive / Nijisanji 归国际市场
+        String group = vtb.getGroupName();
+        if (group != null && (group.startsWith("Hololive") || group.startsWith("Nijisanji"))) {
+            return hasBili ? "both" : "intl";
+        }
+
         if (hasBili && hasYoutube) return "both";
         if (hasBili) return "cn";
         if (hasYoutube) return "intl";
