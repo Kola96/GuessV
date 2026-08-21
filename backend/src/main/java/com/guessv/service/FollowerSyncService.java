@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * 从 vtbs.moe API (https://api.vtbs.moe/v1/info) 同步粉丝量到数据库。
@@ -31,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 public class FollowerSyncService {
 
     private static final String API_URL = "https://api.vtbs.moe/v1/info";
+    private static final int MAX_API_RETRIES = 3;
 
     private final VtuberMapper vtuberMapper;
     private final CrawlLogMapper crawlLogMapper;
@@ -41,12 +43,34 @@ public class FollowerSyncService {
             .readTimeout(60, TimeUnit.SECONDS)
             .build();
 
+    // 并发锁：防止手动触发 + 定时任务同时执行
+    private final AtomicBoolean running = new AtomicBoolean(false);
+
     /**
      * 执行同步：拉取 API → 按 uuid 匹配 → 更新 follower_count + avatar_url
      * @return 同步统计
      */
-    @Transactional
     public Map<String, Integer> syncFollowers() {
+        // 并发锁检查
+        if (!running.compareAndSet(false, true)) {
+            log.warn("粉丝量同步任务已在执行中，跳过本次触发");
+            Map<String, Integer> skipped = new HashMap<>();
+            skipped.put("total", -1);
+            skipped.put("matched", -1);
+            skipped.put("updated", -1);
+            skipped.put("skipped", -1);
+            skipped.put("alreadyRunning", 1);
+            return skipped;
+        }
+
+        try {
+            return doSync();
+        } finally {
+            running.set(false);
+        }
+    }
+
+    private Map<String, Integer> doSync() {
         log.info("开始同步粉丝量数据...");
         Map<String, Integer> stats = new HashMap<>();
         stats.put("total", 0);
@@ -55,21 +79,8 @@ public class FollowerSyncService {
         stats.put("skipped", 0);
 
         try {
-            // 1. 拉 API
-            Request request = new Request.Builder()
-                    .url(API_URL)
-                    .header("User-Agent", "GuessV/1.0")
-                    .get()
-                    .build();
-
-            String jsonBody;
-            try (Response resp = httpClient.newCall(request).execute()) {
-                if (!resp.isSuccessful()) {
-                    throw new RuntimeException("API 返回 " + resp.code());
-                }
-                jsonBody = resp.body() != null ? resp.body().string() : "[]";
-            }
-
+            // 1. 拉 API（带重试）
+            String jsonBody = fetchApiWithRetry();
             JsonNode apiData = objectMapper.readTree(jsonBody);
             stats.put("total", apiData.size());
             log.info("API 返回 {} 条记录", apiData.size());
@@ -84,7 +95,8 @@ public class FollowerSyncService {
             }
 
             // 3. 分批查询数据库的 VTuber 并更新
-            List<Vtuber> allVtubers = vtuberMapper.selectList(new QueryWrapper<Vtuber>().select("id", "uuid", "follower_count", "avatar_url"));
+            List<Vtuber> allVtubers = vtuberMapper.selectList(
+                    new QueryWrapper<Vtuber>().select("id", "uuid", "follower_count", "avatar_url"));
             log.info("数据库中有 {} 条 VTuber 记录", allVtubers.size());
 
             int matched = 0, updated = 0, skipped = 0;
@@ -98,9 +110,7 @@ public class FollowerSyncService {
 
                 int follower = apiItem.path("follower").asInt(0);
                 String face = apiItem.path("face").asText(null);
-                long roomid = apiItem.path("roomid").asLong(0);
 
-                // 只更新有变化的
                 boolean changed = false;
                 if (follower > 0 && (vtb.getFollowerCount() == null || vtb.getFollowerCount() != follower)) {
                     vtb.setFollowerCount(follower);
@@ -145,5 +155,37 @@ public class FollowerSyncService {
 
             throw new RuntimeException("粉丝量同步失败: " + e.getMessage(), e);
         }
+    }
+
+    /**
+     * 带 API 重试的拉取
+     */
+    private String fetchApiWithRetry() throws Exception {
+        Exception lastError = null;
+        for (int attempt = 1; attempt <= MAX_API_RETRIES; attempt++) {
+            try {
+                Request request = new Request.Builder()
+                        .url(API_URL)
+                        .header("User-Agent", "GuessV/1.0")
+                        .get()
+                        .build();
+
+                try (Response resp = httpClient.newCall(request).execute()) {
+                    if (!resp.isSuccessful()) {
+                        throw new RuntimeException("API 返回 " + resp.code());
+                    }
+                    String body = resp.body() != null ? resp.body().string() : "[]";
+                    log.info("API 拉取成功（第 {} 次尝试），{} 字节", attempt, body.length());
+                    return body;
+                }
+            } catch (Exception e) {
+                lastError = e;
+                log.warn("API 拉取失败（第 {}/{} 次）: {}", attempt, MAX_API_RETRIES, e.getMessage());
+                if (attempt < MAX_API_RETRIES) {
+                    Thread.sleep(5000L * attempt);  // 递增等待
+                }
+            }
+        }
+        throw new RuntimeException("API 拉取失败，重试 " + MAX_API_RETRIES + " 次后仍不成功", lastError);
     }
 }
