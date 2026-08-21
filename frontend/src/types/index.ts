@@ -105,6 +105,16 @@ export interface PoolVO {
   vtuberCount: number
 }
 
+export interface AdminPool {
+  id: number
+  name: string
+  description?: string
+  market: string
+  mode: string
+  isActive: boolean
+  sortOrder: number
+}
+
 export interface SingleStartResponse {
   sessionId: number
   maxAttempts: number

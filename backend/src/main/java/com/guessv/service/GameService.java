@@ -7,8 +7,12 @@ import com.guessv.common.BizException;
 import com.guessv.dto.*;
 import com.guessv.entity.DailyTarget;
 import com.guessv.entity.GameRecord;
+import com.guessv.entity.Pool;
+import com.guessv.entity.PoolItem;
 import com.guessv.entity.Vtuber;
 import com.guessv.mapper.GameRecordMapper;
+import com.guessv.mapper.PoolItemMapper;
+import com.guessv.mapper.PoolMapper;
 import com.guessv.mapper.VtuberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +36,8 @@ public class GameService {
     private final GameRecordMapper gameRecordMapper;
     private final VtuberMapper vtuberMapper;
     private final ObjectMapper objectMapper;
+    private final PoolMapper poolMapper;
+    private final PoolItemMapper poolItemMapper;
 
     @Value("${app.game.max-attempts:8}")
     private int maxAttempts;
@@ -41,10 +47,18 @@ public class GameService {
     public DailyGameInfoVO getDailyInfo(Long userId) {
         dailyTargetService.getOrCreateToday();
         GameRecord record = findDailyRecord(userId, LocalDate.now());
-        long total = vtuberMapper.selectCount(
-                new QueryWrapper<Vtuber>()
-                        .in("data_status", "active", "verified")
-                        .in("market", "cn", "both"));
+        // 统计每日题库的 V 数量
+        List<Pool> dailyPools = poolMapper.selectList(
+                new QueryWrapper<Pool>()
+                        .eq("mode", "daily")
+                        .eq("is_active", true)
+                        .in("market", "cn", "all"));
+        long total = 0;
+        if (!dailyPools.isEmpty()) {
+            List<Long> poolIds = dailyPools.stream().map(Pool::getId).toList();
+            total = poolItemMapper.selectCount(
+                    new QueryWrapper<PoolItem>().in("pool_id", poolIds));
+        }
         List<GuessEntry> guesses = parseGuesses(record);
         boolean hasPlayed = record != null;
         boolean hasWon = record != null && Boolean.TRUE.equals(record.getIsWin());
@@ -136,43 +150,28 @@ public class GameService {
     // ===== 单人模式 =====
 
     public List<PoolVO> listPools() {
-        List<PoolVO> pools = new ArrayList<>();
-        for (String tag : List.of("全量", "日V", "国V", "英语圈", "Hololive", "Nijisanji")) {
-            long c = countByPool(tag);
-            pools.add(new PoolVO(tag, describePool(tag), (int) c));
-        }
-        return pools;
+        List<Pool> pools = poolMapper.selectList(
+                new QueryWrapper<Pool>()
+                        .eq("mode", "single")
+                        .eq("is_active", true)
+                        .in("market", "cn", "all")
+                        .orderByAsc("sort_order"));
+        return pools.stream().map(p -> {
+            long count = poolItemMapper.selectCount(
+                    new QueryWrapper<PoolItem>().eq("pool_id", p.getId()));
+            return new PoolVO(p.getName(), p.getDescription() != null ? p.getDescription() : "", (int) count);
+        }).toList();
     }
 
-    private String describePool(String tag) {
-        return switch (tag) {
-            case "全量" -> "所有可用 VTuber";
-            case "日V" -> "日本地区 VTuber";
-            case "国V" -> "中国地区 VTuber";
-            case "英语圈" -> "英语地区 VTuber";
-            case "Hololive" -> "Hololive 所属";
-            case "Nijisanji" -> "Nijisanji 所属";
-            default -> tag;
-        };
-    }
-
-    private long countByPool(String tag) {
-        return findByPool(tag).size();
-    }
-
-    private List<Vtuber> findByPool(String tag) {
-        QueryWrapper<Vtuber> qw = new QueryWrapper<Vtuber>()
-                .in("data_status", "active", "verified")
-                .in("market", "cn", "both");  // 中文版：只出中文市场的题
-        switch (tag) {
-            case "日V" -> qw.eq("region", "日本");
-            case "国V" -> qw.eq("region", "中国");
-            case "英语圈" -> qw.eq("region", "英语圈");
-            case "Hololive" -> qw.likeRight("group_name", "Hololive");
-            case "Nijisanji" -> qw.likeRight("group_name", "Nijisanji");
-            default -> {}
-        }
-        return vtuberMapper.selectList(qw);
+    private List<Vtuber> findByPool(String poolName) {
+        Pool pool = poolMapper.selectOne(
+                new QueryWrapper<Pool>().eq("name", poolName).eq("is_active", true));
+        if (pool == null) throw new BizException(400, "题库不存在: " + poolName);
+        List<PoolItem> items = poolItemMapper.selectList(
+                new QueryWrapper<PoolItem>().eq("pool_id", pool.getId()));
+        if (items.isEmpty()) return List.of();
+        List<Long> ids = items.stream().map(PoolItem::getVtuberId).toList();
+        return vtuberMapper.selectBatchIds(ids);
     }
 
     @Transactional

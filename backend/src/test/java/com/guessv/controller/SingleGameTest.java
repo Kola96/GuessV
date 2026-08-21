@@ -32,11 +32,13 @@ class SingleGameTest {
     @Autowired VtuberMapper vtuberMapper;
     @Autowired GameRecordMapper gameRecordMapper;
     @Autowired DevDataSeeder seeder;
+    @Autowired TestPoolHelper testPoolHelper;
     private String token;
 
     @BeforeEach
     void setup() {
         seeder.seed();
+        testPoolHelper.setupTestPools();
         token = userService.createAnonymousUser("单人玩家", "fp").token();
     }
 
@@ -61,12 +63,12 @@ class SingleGameTest {
         var entity = new HttpEntity<>(auth());
         var resp = restTemplate.exchange(url("/api/game/single/pools"), HttpMethod.GET, entity, String.class);
         assertTrue(resp.getBody().contains("\"code\":200"));
-        assertTrue(resp.getBody().contains("全量"));
+        assertTrue(resp.getBody().contains("test-single"));
     }
 
     @Test
     void startReturnsSessionId() {
-        var entity = new HttpEntity<>("{\"poolTag\":\"全量\"}", auth());
+        var entity = new HttpEntity<>("{\"poolTag\":\"test-single\"}", auth());
         var resp = restTemplate.postForEntity(url("/api/game/single/start"), entity, String.class);
         assertTrue(resp.getBody().contains("\"code\":200"));
         assertTrue(resp.getBody().contains("sessionId"));
@@ -79,7 +81,7 @@ class SingleGameTest {
                 .eq("data_source", "manual").last("LIMIT 1"));
         assertNotNull(seed, "应有种子数据");
 
-        var startEntity = new HttpEntity<>("{\"poolTag\":\"全量\"}", auth());
+        var startEntity = new HttpEntity<>("{\"poolTag\":\"test-single\"}", auth());
         var startResp = restTemplate.postForEntity(url("/api/game/single/start"), startEntity, String.class);
         String body = startResp.getBody();
         int idx = body.indexOf("\"sessionId\":");

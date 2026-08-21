@@ -172,3 +172,25 @@ CREATE TABLE IF NOT EXISTS admin (
     role TEXT DEFAULT 'admin',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+-- 题库表
+CREATE TABLE IF NOT EXISTS pool (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT,
+    market TEXT DEFAULT 'cn',
+    mode TEXT DEFAULT 'single',
+    is_active INTEGER DEFAULT 1,
+    sort_order INTEGER DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 题库成员表
+CREATE TABLE IF NOT EXISTS pool_item (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    pool_id INTEGER NOT NULL,
+    vtuber_id INTEGER NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (pool_id, vtuber_id)
+);
+CREATE INDEX IF NOT EXISTS idx_pool_item_pool_id ON pool_item(pool_id);

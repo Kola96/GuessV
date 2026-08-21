@@ -35,11 +35,13 @@ class DailyGameTest {
     @Autowired DailyTargetMapper dailyTargetMapper;
     @Autowired GameRecordMapper gameRecordMapper;
     @Autowired DevDataSeeder seeder;
+    @Autowired TestPoolHelper testPoolHelper;
     private String token;
 
     @BeforeEach
     void setup() {
         seeder.seed();
+        testPoolHelper.setupTestPools();
         token = userService.createAnonymousUser("玩家", "fp").token();
     }
 

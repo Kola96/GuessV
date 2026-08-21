@@ -10,6 +10,7 @@ import AdminLayout from './features/admin/AdminLayout'
 import AdminDashboard from './features/admin/AdminDashboard'
 import AdminVtuberList from './features/admin/AdminVtuberList'
 import AdminVtuberEdit from './features/admin/AdminVtuberEdit'
+import AdminPoolList from './features/admin/AdminPoolList'
 
 function GameLayout() {
   return (
@@ -33,6 +34,7 @@ function AdminRoutes() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/vtuber" element={<AdminVtuberList />} />
         <Route path="/admin/vtuber/:id" element={<AdminVtuberEdit />} />
+        <Route path="/admin/pool" element={<AdminPoolList />} />
         <Route path="/admin/*" element={<Navigate to="/admin" replace />} />
       </Routes>
     </AdminLayout>

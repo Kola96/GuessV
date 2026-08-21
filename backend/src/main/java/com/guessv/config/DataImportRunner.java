@@ -14,10 +14,12 @@ public class DataImportRunner implements ApplicationRunner {
 
     private final DataImportService dataImportService;
     private final DevDataSeeder devDataSeeder;
+    private final PoolInitializer poolInitializer;
 
     @Override
     public void run(ApplicationArguments args) {
         dataImportService.importIfEmpty();
         devDataSeeder.seedIfEnabled();
+        poolInitializer.initIfEmpty();
     }
 }

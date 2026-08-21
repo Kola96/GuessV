@@ -2,6 +2,7 @@ package com.guessv.service;
 
 import com.guessv.GuessVApplication;
 import com.guessv.config.DevDataSeeder;
+import com.guessv.controller.TestPoolHelper;
 import com.guessv.entity.DailyTarget;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,9 +22,10 @@ class DailyTargetServiceTest {
 
     @Autowired private DailyTargetService dailyTargetService;
     @Autowired private DevDataSeeder seeder;
+    @Autowired private TestPoolHelper testPoolHelper;
 
     @BeforeEach
-    void seed() { seeder.seed(); }
+    void seed() { seeder.seed(); testPoolHelper.setupTestPools(); }
 
     @Test
     void getOrCreateTodayCreatesIfMissing() {

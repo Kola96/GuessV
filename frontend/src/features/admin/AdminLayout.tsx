@@ -11,6 +11,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const navItems = [
     { to: '/admin', label: '数据看板', icon: '📊' },
     { to: '/admin/vtuber', label: 'VTuber 管理', icon: '🎤' },
+    { to: '/admin/pool', label: '题库管理', icon: '📦' },
   ]
 
   return (
