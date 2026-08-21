@@ -33,6 +33,7 @@ public class FollowerSyncService {
 
     private static final String API_URL = "https://api.vtbs.moe/v1/info";
     private static final int MAX_API_RETRIES = 3;
+    private static final int CN_BILI_THRESHOLD = 10000;  // B站粉丝≥1万才算中文市场达标
 
     private final VtuberMapper vtuberMapper;
     private final CrawlLogMapper crawlLogMapper;
@@ -96,7 +97,7 @@ public class FollowerSyncService {
 
             // 3. 分批查询数据库的 VTuber 并更新
             List<Vtuber> allVtubers = vtuberMapper.selectList(
-                    new QueryWrapper<Vtuber>().select("id", "uuid", "follower_count", "avatar_url"));
+                    new QueryWrapper<Vtuber>().select("id", "uuid", "follower_bili", "follower_youtube", "market", "avatar_url", "platforms"));
             log.info("数据库中有 {} 条 VTuber 记录", allVtubers.size());
 
             int matched = 0, updated = 0, skipped = 0;
@@ -112,12 +113,18 @@ public class FollowerSyncService {
                 String face = apiItem.path("face").asText(null);
 
                 boolean changed = false;
-                if (follower > 0 && (vtb.getFollowerCount() == null || vtb.getFollowerCount() != follower)) {
-                    vtb.setFollowerCount(follower);
+                if (follower > 0 && (vtb.getFollowerBili() == null || vtb.getFollowerBili() != follower)) {
+                    vtb.setFollowerBili(follower);
                     changed = true;
                 }
                 if (face != null && !face.isEmpty() && !face.equals(vtb.getAvatarUrl())) {
                     vtb.setAvatarUrl(face);
+                    changed = true;
+                }
+                // 初始化 market：有 B 站粉丝 ≥1万 → cn；有 YouTube 但 B 站不达标 → intl
+                if (vtb.getMarket() == null) {
+                    String market = determineMarket(vtb, follower);
+                    vtb.setMarket(market);
                     changed = true;
                 }
 
@@ -187,5 +194,21 @@ public class FollowerSyncService {
             }
         }
         throw new RuntimeException("API 拉取失败，重试 " + MAX_API_RETRIES + " 次后仍不成功", lastError);
+    }
+
+    /**
+     * 判断 VTuber 的主要市场。
+     * B 站粉丝 ≥ 阈值 → cn
+     * 有 YouTube 账号但 B 站不达标 → intl
+     * 两个都不达标 → null（不进入任何题库）
+     */
+    private String determineMarket(Vtuber vtb, int biliFollower) {
+        boolean hasBili = biliFollower >= CN_BILI_THRESHOLD;
+        boolean hasYoutube = vtb.getPlatforms() != null && vtb.getPlatforms().contains("youtube");
+
+        if (hasBili && hasYoutube) return "both";
+        if (hasBili) return "cn";
+        if (hasYoutube) return "intl";
+        return null;
     }
 }

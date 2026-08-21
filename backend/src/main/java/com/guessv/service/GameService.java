@@ -42,7 +42,9 @@ public class GameService {
         dailyTargetService.getOrCreateToday();
         GameRecord record = findDailyRecord(userId, LocalDate.now());
         long total = vtuberMapper.selectCount(
-                new QueryWrapper<Vtuber>().in("data_status", "active", "verified"));
+                new QueryWrapper<Vtuber>()
+                        .in("data_status", "active", "verified")
+                        .in("market", "cn", "both"));
         List<GuessEntry> guesses = parseGuesses(record);
         boolean hasPlayed = record != null;
         boolean hasWon = record != null && Boolean.TRUE.equals(record.getIsWin());
@@ -160,7 +162,8 @@ public class GameService {
 
     private List<Vtuber> findByPool(String tag) {
         QueryWrapper<Vtuber> qw = new QueryWrapper<Vtuber>()
-                .in("data_status", "active", "verified");
+                .in("data_status", "active", "verified")
+                .in("market", "cn", "both");  // 中文版：只出中文市场的题
         switch (tag) {
             case "日V" -> qw.eq("region", "日本");
             case "国V" -> qw.eq("region", "中国");

@@ -17,7 +17,7 @@ export default function AdminVtuberEdit() {
       setVtuber(r.data)
       // 初始化编辑字段为当前值
       const init: Record<string, string> = {}
-      const fields = ['nameCn', 'nameEn', 'nameJp', 'region', 'groupName', 'debutYear', 'birthday', 'gender', 'activityStatus', 'hairColor', 'fanName', 'representativeColor', 'followerCount', 'platforms', 'languages']
+      const fields = ['nameCn', 'nameEn', 'nameJp', 'region', 'groupName', 'debutYear', 'birthday', 'gender', 'activityStatus', 'hairColor', 'fanName', 'representativeColor', 'followerBili', 'market', 'platforms', 'languages']
       fields.forEach(f => {
         const val = (r.data as unknown as Record<string, unknown>)[f]
         init[f] = Array.isArray(val) ? val.join(', ') : (val as string || '')
@@ -36,7 +36,7 @@ export default function AdminVtuberEdit() {
       Object.entries(editing).forEach(([key, value]) => {
         if (arrayFields.includes(key)) {
           fields[key] = value.split(',').map(s => s.trim()).filter(s => s)
-        } else if (key === 'debutYear' || key === 'followerCount') {
+        } else if (key === 'debutYear' || key === 'followerBili') {
           fields[key] = value ? parseInt(value) : null
         } else {
           fields[key] = value || null
@@ -80,7 +80,8 @@ export default function AdminVtuberEdit() {
     { key: 'hairColor', label: '发色 (逗号分隔)' },
     { key: 'fanName', label: '粉丝名' },
     { key: 'representativeColor', label: '代表色 (HEX)' },
-    { key: 'followerCount', label: '粉丝量' },
+    { key: 'followerBili', label: 'B站粉丝' },
+    { key: 'market', label: '市场(cn/intl/both)' },
     { key: 'platforms', label: '平台 (逗号分隔)' },
     { key: 'languages', label: '语言 (逗号分隔)' },
   ]

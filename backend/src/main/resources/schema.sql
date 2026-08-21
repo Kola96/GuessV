@@ -36,7 +36,9 @@ CREATE TABLE IF NOT EXISTS vtuber (
     languages TEXT,
     avatar_url TEXT,
     birthday TEXT,
-    follower_count INTEGER,
+    follower_bili INTEGER,
+    follower_youtube INTEGER,
+    market TEXT,
     data_status TEXT,
     data_source TEXT,
     locked_fields TEXT,
@@ -47,6 +49,7 @@ CREATE INDEX IF NOT EXISTS idx_vtuber_region ON vtuber(region);
 CREATE INDEX IF NOT EXISTS idx_vtuber_group_id ON vtuber(group_id);
 CREATE INDEX IF NOT EXISTS idx_vtuber_data_status ON vtuber(data_status);
 CREATE INDEX IF NOT EXISTS idx_vtuber_activity_status ON vtuber(activity_status);
+CREATE INDEX IF NOT EXISTS idx_vtuber_market ON vtuber(market);
 
 -- 每日目标表
 CREATE TABLE IF NOT EXISTS daily_target (

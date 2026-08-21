@@ -46,13 +46,16 @@ public class DailyTargetService {
                 .collect(Collectors.toList());
 
         QueryWrapper<Vtuber> qw = new QueryWrapper<Vtuber>()
-                .in("data_status", "active", "verified");
+                .in("data_status", "active", "verified")
+                .in("market", "cn", "both");  // 中文版：只出中文市场的题
         if (!recentIds.isEmpty()) qw.notIn("id", recentIds);
         List<Vtuber> candidates = vtuberMapper.selectList(qw);
 
         if (candidates.isEmpty()) {
             candidates = vtuberMapper.selectList(
-                    new QueryWrapper<Vtuber>().in("data_status", "active", "verified"));
+                    new QueryWrapper<Vtuber>()
+                            .in("data_status", "active", "verified")
+                            .in("market", "cn", "both"));
         }
         if (candidates.isEmpty()) throw new IllegalStateException("无可用 VTuber 作为每日目标");
 

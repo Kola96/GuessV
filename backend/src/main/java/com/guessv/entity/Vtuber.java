@@ -44,7 +44,9 @@ public class Vtuber {
     private List<String> languages;
     private String avatarUrl;
     private String birthday;
-    private Integer followerCount;
+    private Integer followerBili;
+    private Integer followerYoutube;
+    private String market;
     private String dataStatus;
     private String dataSource;
     @TableField(typeHandler = JacksonTypeHandler.class)

@@ -25,7 +25,7 @@ public class ComparisonService {
                 compareString(guess.getActivityStatus(), target.getActivityStatus(), this::translateStatus),
                 compareList(guess.getHairColor(), target.getHairColor()),
                 compareList(guess.getLanguages(), target.getLanguages()),
-                compareFollowerCount(guess.getFollowerCount(), target.getFollowerCount())
+                compareFollowerCount(guess, target)
         );
     }
 
@@ -34,6 +34,42 @@ public class ComparisonService {
                 ? v.getNameCn()
                 : (v.getNameEn() != null ? v.getNameEn() : v.getNameCn());
         return new FieldComparison(display, "exact");
+    }
+
+    /**
+     * 粉丝量对比：按 market 取对应字段。
+     * cn → follower_bili
+     * intl → follower_youtube
+     * both → 取最大值
+     */
+    private FieldComparison compareFollowerCount(Vtuber guess, Vtuber target) {
+        Integer a = getFollowerForMarket(guess);
+        Integer b = getFollowerForMarket(target);
+        if (a == null && b == null) return new FieldComparison(null, "exact");
+        if (a == null || b == null) return new FieldComparison(a, "none");
+        if (a.equals(b)) return new FieldComparison(a, "exact");
+        double ratio = Math.abs(a - b) / (double) Math.max(a, b);
+        if (ratio <= 0.10) {
+            return new FieldComparison(a, "partial", a < b ? "↑" : "↓");
+        }
+        if (a < b) return new FieldComparison(a, "higher", "↑");
+        return new FieldComparison(a, "lower", "↓");
+    }
+
+    private Integer getFollowerForMarket(Vtuber v) {
+        if (v.getMarket() == null) return v.getFollowerBili();
+        return switch (v.getMarket()) {
+            case "cn" -> v.getFollowerBili();
+            case "intl" -> v.getFollowerYoutube();
+            case "both" -> {
+                Integer bili = v.getFollowerBili();
+                Integer yt = v.getFollowerYoutube();
+                if (bili == null) yield yt;
+                if (yt == null) yield bili;
+                yield Math.max(bili, yt);
+            }
+            default -> v.getFollowerBili();
+        };
     }
 
     private FieldComparison compareString(String a, String b) {
@@ -85,18 +121,6 @@ public class ComparisonService {
             return new FieldComparison(a, "partial");
         }
         return new FieldComparison(a, "none");
-    }
-
-    private FieldComparison compareFollowerCount(Integer a, Integer b) {
-        if (a == null && b == null) return new FieldComparison(null, "exact");
-        if (a == null || b == null) return new FieldComparison(a, "none");
-        if (a.equals(b)) return new FieldComparison(a, "exact");
-        double ratio = Math.abs(a - b) / (double) Math.max(a, b);
-        if (ratio <= 0.10) {
-            return new FieldComparison(a, "partial", a < b ? "↑" : "↓");
-        }
-        if (a < b) return new FieldComparison(a, "higher", "↑");
-        return new FieldComparison(a, "lower", "↓");
     }
 
     @SuppressWarnings("unchecked")

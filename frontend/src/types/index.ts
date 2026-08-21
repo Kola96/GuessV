@@ -23,7 +23,9 @@ export interface Vtuber {
   languages?: string[]
   avatarUrl?: string
   birthday?: string
-  followerCount?: number
+  followerBili?: number
+  followerYoutube?: number
+  market?: string
   dataStatus?: string
   dataSource?: string
   lockedFields?: string[]
