@@ -40,7 +40,7 @@ public class FollowerSyncService {
 
     private final OkHttpClient httpClient = new OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(90, TimeUnit.SECONDS)  // API 实测响应 18-20s，留余量
             .build();
 
     // 并发锁：防止手动触发 + 定时任务同时执行
